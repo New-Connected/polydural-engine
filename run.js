@@ -19,6 +19,7 @@ function clearWindow() {
 
 function gameUpdate() {
     clearWindow()
+    drawMeshes()
     updateFps()
 }
 
