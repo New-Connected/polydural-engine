@@ -36,19 +36,18 @@ function createMesh(matrix) {
 }
 
 function drawMeshes() {
-    ctx.fillStyle = '#000000';
-    for (mesh = 0; mesh < vertices; mesh++) {
-        for (face = 0; face < vertices[mesh]; face++) {
-            vertices[mesh][face].forEach(vert => {
-                
-            })
+    ctx.fillStyle = '#000000'
+    ctx.strokeStyle = '#000000'
+    ctx.lineWidth = 10;
+    for (mesh = 0; mesh < vertices.length; mesh++) {
+        ctx.beginPath()
+        ctx.moveTo(0, 0)
+        console.log(vertices[mesh])
+        for (face = 0; face < vertices[mesh].length; face++) {
+            ctx.lineTo(vertices[mesh][face].x, vertices[mesh][face].y)
         }
+        ctx.closePath()
+        ctx.stroke()
+        //ctx.fill()
     }
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(100,50);
-    ctx.lineTo(50, 100);
-    ctx.lineTo(0, 90);
-    ctx.closePath();
-    ctx.fill();
 }
