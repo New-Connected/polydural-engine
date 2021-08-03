@@ -30,4 +30,4 @@ function gameUpdate() {
     console.log("update")
 }
 
-setInterval(gameUpdate, 3)
+setInterval(gameUpdate, 1)
