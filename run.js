@@ -5,6 +5,8 @@ fps = 0
 timePassed = 0
 fpsData = []
 
+createMesh(cubeMatrix)
+
 function updateFps() {
     fpsData = countFps(fps, timePassed)
     fps = fpsData[0]
@@ -18,7 +20,6 @@ function clearWindow() {
 function gameUpdate() {
     clearWindow()
     updateFps()
-    console.log("update")
 }
 
 setInterval(gameUpdate, 1)
