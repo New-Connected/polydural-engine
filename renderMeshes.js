@@ -20,10 +20,17 @@ function calculateDistance(point, distance) {
     return point
 }
 
+function centerMesh(point) {
+    point.x = point.x + canvas.width /2
+    point.y = point.y + canvas.width / 2
+    return point
+}
+
 function calculateVertices(matrix) {
     for (face = 0; face < matrix.length; face++) {
         matrix[face].forEach(vert => {
             vert = calculateDistance(vert, 1)
+            vert = centerMesh(vert)
         })
     }
     return matrix
@@ -38,13 +45,16 @@ function createMesh(matrix) {
 function drawMeshes() {
     ctx.fillStyle = '#000000'
     ctx.strokeStyle = '#000000'
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 5;
     for (mesh = 0; mesh < vertices.length; mesh++) {
         ctx.beginPath()
-        ctx.moveTo(0, 0)
         console.log(vertices[mesh])
         for (face = 0; face < vertices[mesh].length; face++) {
-            ctx.lineTo(vertices[mesh][face].x, vertices[mesh][face].y)
+            if (face == 0) {
+                ctx.moveTo(vertices[mesh][face].x, vertices[mesh][face].y)
+            } else {
+                ctx.lineTo(vertices[mesh][face].x, vertices[mesh][face].y)
+            }
         }
         ctx.closePath()
         ctx.stroke()

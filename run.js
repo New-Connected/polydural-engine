@@ -23,4 +23,4 @@ function gameUpdate() {
     updateFps()
 }
 
-setInterval(gameUpdate, 300)
+setInterval(gameUpdate, 1)
