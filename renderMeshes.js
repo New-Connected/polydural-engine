@@ -15,26 +15,26 @@ function ToPolygon(matrix) {
     return matrix.map(MatrixToVertices)
 }
 
-function calculateDistance(point, distance) {
+function calculateDistance(point, distance, x, y, z) {
     calculatedPoint = point
-    Fov = calculatedPoint.z + distance
-    calculatedPoint.x = calculatedPoint.x / Fov
-    calculatedPoint.y = calculatedPoint.y / Fov
+    Fov = calculatedPoint.z + (distance + z)
+    calculatedPoint.x = (calculatedPoint.x + x) / Fov
+    calculatedPoint.y = (calculatedPoint.y + y) / Fov
     return calculatedPoint
 }
 
-function centerMesh(point) {
+function positionMesh(point) {
     point.x = point.x + canvas.width / 2
     point.y = point.y + canvas.width / 2
     return point
 }
 
-function calculateVertices(matrix) {
+function calculateVertices(matrix, x, y, z) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
     for (face = 0; face < calculatedMatrix.length; face++) {
         calculatedMatrix[face].forEach(vert => {
-            vert = calculateDistance(vert, 1)
-            vert = centerMesh(vert)
+            vert = calculateDistance(vert, 1, x, y, z)
+            vert = positionMesh(vert)
         })
         console.log(calculatedMatrix[face])
     }
@@ -42,16 +42,15 @@ function calculateVertices(matrix) {
     return calculatedMatrix
 }
 
-function createMesh(matrix) {
+function createMesh(matrix, x, y, z) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push(vertices)
+    compiledMeshes.push([vertices, x, y, z])
 }
 
 function drawMeshes() {
     for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
-        console.log(compiledMeshes)
         let calculatedVertices1 = compiledMeshes[meshCalc]
-        let calculatedVertices = calculateVertices(calculatedVertices1)
+        let calculatedVertices = calculateVertices(calculatedVertices1[0], calculatedVertices1[1], calculatedVertices1[2], calculatedVertices1[3])
         ctx.fillStyle = '#000000'
         ctx.strokeStyle = '#000000'
         ctx.lineWidth = 5;

@@ -5,7 +5,8 @@ fps = 0
 timePassed = 0
 fpsData = []
 
-createMesh(cubeMatrix)
+createMesh(cubeMatrix, 100, 100, 0)
+createMesh(squareMatrix, -200, -150, 0)
 
 function updateFps() {
     fpsData = countFps(fps, timePassed)

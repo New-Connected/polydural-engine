@@ -22,6 +22,14 @@
     left: 0.5%;
     background-color: rgb(121, 121, 121);
 }
+#objectInspector {
+    width: 24%;
+    height: 69%;
+    position: absolute;
+    top: 5.5%;
+    left: 75.5%;
+    background-color: rgb(121, 121, 121);
+}
 #fpsLabel {
     position: absolute;
     top: 0%;
