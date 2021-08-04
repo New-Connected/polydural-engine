@@ -17,7 +17,7 @@ function ToPolygon(matrix) {
 
 function calculateDistance(point, distance, x, y, z) {
     calculatedPoint = point
-    Fov = calculatedPoint.z + (distance + z)
+    Fov = (calculatedPoint.z + z) + distance
     calculatedPoint.x = (calculatedPoint.x + x) / Fov
     calculatedPoint.y = (calculatedPoint.y + y) / Fov
     return calculatedPoint
