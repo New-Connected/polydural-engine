@@ -42,3 +42,15 @@ body {
     margin: 0;
     background-color: rgb(180, 180, 180);
 }
+#sceneView {
+    position: absolute;
+    left: 25%;
+}
+#gameView {
+    position: absolute;
+    left: 35%;
+}
+#codeView {
+    position: absolute;
+    left: 45%;
+}
