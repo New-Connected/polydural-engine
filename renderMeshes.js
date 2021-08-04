@@ -1,6 +1,8 @@
 canvas = document.getElementById("gameWindow")
 ctx = canvas.getContext("2d")
 
+compiledMeshes = []
+
 function MatrixToVertices(matrix) {
     return {
          x: matrix[0],
@@ -14,10 +16,11 @@ function ToPolygon(matrix) {
 }
 
 function calculateDistance(point, distance) {
-    Fov = point.z + distance
-    point.x = point.x / Fov
-    point.y = point.y / Fov
-    return point
+    calculatedPoint = point
+    Fov = calculatedPoint.z + distance
+    calculatedPoint.x = calculatedPoint.x / Fov
+    calculatedPoint.y = calculatedPoint.y / Fov
+    return calculatedPoint
 }
 
 function centerMesh(point) {
@@ -27,38 +30,43 @@ function centerMesh(point) {
 }
 
 function calculateVertices(matrix) {
-    calculatedMatrix = matrix
+    calculatedMatrix = JSON.parse(JSON.stringify(matrix))
     for (face = 0; face < calculatedMatrix.length; face++) {
         calculatedMatrix[face].forEach(vert => {
             vert = calculateDistance(vert, 1)
             vert = centerMesh(vert)
         })
+        console.log(calculatedMatrix[face])
     }
+    console.log(calculatedMatrix)
     return calculatedMatrix
 }
 
 function createMesh(matrix) {
-    vertices = matrix.map(ToPolygon)
+    const vertices = matrix.map(ToPolygon)
+    compiledMeshes.push(vertices)
 }
 
 function drawMeshes() {
-    calculatedVertices = calculateVertices(vertices)
-    console.log(vertices)
-    ctx.fillStyle = '#000000'
-    ctx.strokeStyle = '#000000'
-    ctx.lineWidth = 5;
-    for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
-        ctx.beginPath()
-        console.log(calculatedVertices[mesh])
-        for (face = 0; face < calculatedVertices[mesh].length; face++) {
-            if (face == 0) {
-                ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-            } else {
-                ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+    for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
+        console.log(compiledMeshes)
+        let calculatedVertices1 = compiledMeshes[meshCalc]
+        let calculatedVertices = calculateVertices(calculatedVertices1)
+        ctx.fillStyle = '#000000'
+        ctx.strokeStyle = '#000000'
+        ctx.lineWidth = 5;
+        for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+            ctx.beginPath()
+            for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                if (face == 0) {
+                    ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                } else {
+                    ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                }
             }
+            ctx.closePath()
+            ctx.stroke()
+            //ctx.fill()
         }
-        ctx.closePath()
-        ctx.stroke()
-        //ctx.fill()
     }
 }
