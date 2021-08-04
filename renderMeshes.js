@@ -16,44 +16,45 @@ function ToPolygon(matrix) {
 function calculateDistance(point, distance) {
     Fov = point.z + distance
     point.x = point.x / Fov
-    point.y = point.y /Fov
+    point.y = point.y / Fov
     return point
 }
 
 function centerMesh(point) {
-    point.x = point.x + canvas.width /2
+    point.x = point.x + canvas.width / 2
     point.y = point.y + canvas.width / 2
     return point
 }
 
 function calculateVertices(matrix) {
-    for (face = 0; face < matrix.length; face++) {
-        matrix[face].forEach(vert => {
+    calculatedMatrix = matrix
+    for (face = 0; face < calculatedMatrix.length; face++) {
+        calculatedMatrix[face].forEach(vert => {
             vert = calculateDistance(vert, 1)
             vert = centerMesh(vert)
         })
     }
-    return matrix
+    return calculatedMatrix
 }
 
 function createMesh(matrix) {
     vertices = matrix.map(ToPolygon)
-    calculatedVertices = calculateVertices(vertices)
-    console.log(calculatedVertices)
 }
 
 function drawMeshes() {
+    calculatedVertices = calculateVertices(vertices)
+    console.log(vertices)
     ctx.fillStyle = '#000000'
     ctx.strokeStyle = '#000000'
     ctx.lineWidth = 5;
-    for (mesh = 0; mesh < vertices.length; mesh++) {
+    for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
         ctx.beginPath()
-        console.log(vertices[mesh])
-        for (face = 0; face < vertices[mesh].length; face++) {
+        console.log(calculatedVertices[mesh])
+        for (face = 0; face < calculatedVertices[mesh].length; face++) {
             if (face == 0) {
-                ctx.moveTo(vertices[mesh][face].x, vertices[mesh][face].y)
+                ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
             } else {
-                ctx.lineTo(vertices[mesh][face].x, vertices[mesh][face].y)
+                ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
             }
         }
         ctx.closePath()
