@@ -94,6 +94,12 @@ document.addEventListener('keyup', function(event) {
     }
 })
 
+function drawUI() {
+    ctx.fillStyle = "#000000";
+    ctx.font = "20px Arial";     
+    ctx.fillText("made with polydural", 0, 30);
+}
+
 squareMatrix = [
     [
         [-50, -50, 0],
@@ -245,7 +251,7 @@ function gameUpdate() {
     clearWindow();
     drawMeshes();
     checkMove();
-    console.log("frame");
+    drawUI();
 }
 
 setInterval(gameUpdate, 1);
