@@ -17,8 +17,8 @@
             <button id="build" onclick="startBuild()">build game</button>
         </div>
         <div id="objectHolder">
-            <button>cube</button><br>
-            <button>square</button>
+            <button>cube</button>
+            <button id="addObject" onclick="addObject('cube')">add cube</button>
         </div>
         <div id="objectInspector">
             <div id="objectName">name: </div>
@@ -28,7 +28,8 @@
         </div>
 
         <div id="buildOut"></div>
-
+        
+        <script src="objects.js"></script>
         <script src="build.js"></script>
         <script src="defaultObjects.js"></script>
         <script src="renderMeshes.js"></script>

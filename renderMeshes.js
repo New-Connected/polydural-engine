@@ -31,7 +31,7 @@ function zoom(point, factor) {
 
 function positionMesh(point) {
     point.x = point.x + canvas.width / 2
-    point.y = point.y + canvas.width / 2
+    point.y = point.y + canvas.height / 2
 }
 
 function calculateVertices(matrix, x, y, z, camX, camY, camZ) {
