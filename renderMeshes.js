@@ -46,9 +46,9 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ) {
     return calculatedMatrix
 }
 
-function createMesh(matrix, x, y, z) {
+function createMesh(matrix, x, y, z, name) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z])
+    compiledMeshes.push([vertices, x, y, z, name])
 }
 
 function drawMeshes() {
