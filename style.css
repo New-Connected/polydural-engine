@@ -94,3 +94,7 @@ button:hover {
     left: 70%;
     width: 30%;
 }
+#amountOfObjects {
+    position: absolute;
+    top: 95%;
+}
