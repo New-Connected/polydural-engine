@@ -14,7 +14,7 @@
             <button id="sceneView">scene editor</button>
             <button id="gameView">game window</button>
             <button id="codeView">code editor</button>
-            <button id="build">build game</button>
+            <button id="build" onclick="startBuild()">build game</button>
         </div>
         <div id="objectHolder">
             <button>cube</button><br>
@@ -26,6 +26,10 @@
             <div id="objectColor">color: </div>
             <button>delete object</button>
         </div>
+
+        <div id="buildOut"></div>
+
+        <script src="build.js"></script>
         <script src="defaultObjects.js"></script>
         <script src="renderMeshes.js"></script>
         <script src="camera.js"></script>

@@ -53,7 +53,7 @@ function createMesh(matrix, x, y, z) {
 
 function drawMeshes() {
     for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
-        if (compiledMeshes[meshCalc][3] - 100 < camZ) {
+        if ((0 - compiledMeshes[meshCalc][3]) + -90 < camZ) {
             let calculatedVertices1 = compiledMeshes[meshCalc]
             let calculatedVertices = calculateVertices(calculatedVertices1[0], 
                                                     calculatedVertices1[1], 

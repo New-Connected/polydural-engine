@@ -6,12 +6,16 @@ wClicked = 0
 aClicked = 0
 sClicked = 0
 dClicked = 0
+qClicked = 0
+eClicked = 0
 
 function checkMove() {
     camZ = camZ - wClicked
     camZ = camZ + sClicked
     camX = camX + aClicked
     camX = camX - dClicked
+    camY = camY - qClicked
+    camY = camY + eClicked
 }
 
 document.addEventListener('keydown', function(event) {
@@ -27,6 +31,12 @@ document.addEventListener('keydown', function(event) {
     if(event.keyCode == 68) {
         dClicked = dClicked + 0.5
     }
+    if(event.keyCode == 69) {
+        eClicked = eClicked + 0.5
+    }
+    if(event.keyCode == 81) {
+        qClicked = qClicked + 0.5
+    }
 })
 document.addEventListener('keyup', function(event) {
     if(event.keyCode == 87) {
@@ -40,5 +50,11 @@ document.addEventListener('keyup', function(event) {
     }
     if(event.keyCode == 68) {
         dClicked = 0
+    }
+    if(event.keyCode == 69) {
+        eClicked = 0
+    }
+    if(event.keyCode == 81) {
+        qClicked = 0
     }
 })

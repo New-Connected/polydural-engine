@@ -82,3 +82,8 @@ button:hover {
     color: #FFFFFF;
     background: #878787;
 }
+
+#buildOut {
+    position: absolute;
+    top: 75%;
+}
