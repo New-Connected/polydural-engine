@@ -12,6 +12,7 @@ function gameUpdate() {
     clearWindow()
     drawMeshes()
     updateFps()
+    checkMove()
 }
 
 setInterval(gameUpdate, 1)
