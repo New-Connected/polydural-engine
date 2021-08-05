@@ -100,7 +100,8 @@ button:hover {
     position: absolute;
     top: 0%;
 }
-#object {
+
+.object {
     position: absolute;
     left: 1%;
 }
