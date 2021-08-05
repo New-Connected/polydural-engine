@@ -1,3 +1,7 @@
+fps = 0
+timePassed = 0
+fpsData = []
+
 function countFps(framesPassed, lastFrame) {
     date = new Date()
     timeNow = date.getTime()
@@ -9,4 +13,10 @@ function countFps(framesPassed, lastFrame) {
         framesPassed = framesPassed + 1
     }
     return [framesPassed, lastFrame]
+}
+
+function updateFps() {
+    fpsData = countFps(fps, timePassed)
+    fps = fpsData[0]
+    timePassed = fpsData[1]
 }

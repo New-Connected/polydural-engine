@@ -3,6 +3,8 @@ ctx = canvas.getContext("2d")
 
 compiledMeshes = []
 
+colors = ["#FF0000", "#00FF00", "#00FF00", "#FFFF00", "#00FFFF", "#FF00FF"]
+
 function MatrixToVertices(matrix) {
     return {
          x: matrix[0],
@@ -16,11 +18,10 @@ function ToPolygon(matrix) {
 }
 
 function calculateDistance(point, distance, x, y, z) {
-    calculatedPoint = point
-    Fov = (calculatedPoint.z + z) + distance
-    calculatedPoint.x = (calculatedPoint.x + x) / Fov
-    calculatedPoint.y = (calculatedPoint.y + y) / Fov
-    return calculatedPoint
+    Fov = (point.z + z) + distance
+    point.x = (point.x + x) / Fov
+    point.y = (point.y + y) / Fov
+    return point
 }
 
 function positionMesh(point) {
@@ -51,10 +52,10 @@ function drawMeshes() {
     for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
         let calculatedVertices1 = compiledMeshes[meshCalc]
         let calculatedVertices = calculateVertices(calculatedVertices1[0], calculatedVertices1[1], calculatedVertices1[2], calculatedVertices1[3])
-        ctx.fillStyle = '#000000'
         ctx.strokeStyle = '#000000'
         ctx.lineWidth = 5;
         for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+            ctx.fillStyle = colors[mesh]
             ctx.beginPath()
             for (face = 0; face < calculatedVertices[mesh].length; face++) {
                 if (face == 0) {
@@ -64,8 +65,8 @@ function drawMeshes() {
                 }
             }
             ctx.closePath()
-            ctx.stroke()
-            //ctx.fill()
+            //ctx.stroke()
+            ctx.fill()
         }
     }
 }
