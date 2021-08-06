@@ -105,3 +105,14 @@ button:hover {
     position: absolute;
     left: 1%;
 }
+
+#load {
+    position: absolute;
+    left: 85%;
+    width: 5%;
+}
+#save {
+    position: absolute;
+    left: 80%;
+    width: 5%;
+}
