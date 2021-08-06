@@ -15,6 +15,8 @@
             <button id="gameView">game window</button>
             <button id="codeView">code editor</button>
             <button id="build" onclick="startBuild()">build game</button>
+            <button id="save" onclick="saveScene()">save scene</button>
+            <button id="load" onclick="loadScene()">load scene</button>
         </div>
         <div id="objectHolder">
             <button id="addObject" onclick="addObject('cube')">add cube</button>
@@ -33,6 +35,7 @@
 
         <div id="buildOut"></div>
         
+        <script src="save.js"></script>
         <script src="renderUI.js"></script>
         <script src="objects.js"></script>
         <script src="build.js"></script>

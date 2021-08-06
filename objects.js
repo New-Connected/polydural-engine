@@ -58,3 +58,7 @@ function deleteObject() {
         }
     }
 }
+
+function reloadObjects() {
+    document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
+}
