@@ -61,4 +61,18 @@ function deleteObject() {
 
 function reloadObjects() {
     document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
+    for (x = 0; x < amountOfObjects; x++) {
+        buttonNum = x + 1
+        let name = "cube(" + buttonNum + ")"
+        let buttonName = "object" + buttonNum
+        button = document.createElement("button");
+        objectHolder.appendChild(button);
+        button.innerHTML = "cube (" + buttonNum + ")"
+        button.id = "object" + buttonNum
+        button.className = "object"
+        button.style.top = (40 * (x) + 20) + "px"
+        button.onclick = function () {
+            readObjectData(name, buttonName)
+        }
+    }
 }
