@@ -6,7 +6,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "cube(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(cubeMatrix, 150 * amountOfObjects, 0, 0, name)
+        createMesh(cubeMatrix, 150 * amountOfObjects, 0, 0, name, buttonName)
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -19,6 +19,9 @@ function addObject(objectType) {
         button.onclick = function () {
             readObjectData(name, buttonName)
         }
+    }
+    for (x = 0; x < compiledMeshes.length; x++) {
+        document.getElementById(compiledMeshes[x][5]).style.top = (40 * (x) + 20) + "px"
     }
 }
 
@@ -39,5 +42,10 @@ function deleteObject() {
         compiledMeshes.splice(objectSelected[0], 1)
         document.getElementById(objectSelected[1]).remove()
         objectSelected = [-1, "a"]
+        amountOfObjects = amountOfObjects - 1
+        document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
+        for (x = 0; x < compiledMeshes.length; x++) {
+            document.getElementById(compiledMeshes[x][5]).style.top = (40 * (x) + 20) + "px"
+        }
     }
 }
