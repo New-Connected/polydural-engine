@@ -225,24 +225,17 @@ function drawMeshes() {
             }
         }
     }
+}`
+
+function createObjects() {
+    objectsString = ""
+    for (x = 0; x < compiledMeshes.length; x++) {
+        objectsString = objectsString + "createMesh(" + compiledMeshes[x][7] + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ")\n"
+    }
+    return objectsString
 }
 
-createMesh(cubeMatrix, 100, -100, 0)
-createMesh(cubeMatrix, 200, -100, 0)
-createMesh(cubeMatrix, 300, -100, 0)
-createMesh(cubeMatrix, 400, -100, 0)
-createMesh(cubeMatrix, 500, -100, 0)
-createMesh(cubeMatrix, 600, -100, 0)
-createMesh(cubeMatrix, 700, -100, 0)
-createMesh(cubeMatrix, 100, -100, -10)
-createMesh(cubeMatrix, 200, -100, -10)
-createMesh(cubeMatrix, 300, -100, -10)
-createMesh(cubeMatrix, 400, -100, -10)
-createMesh(cubeMatrix, 500, -100, -10)
-createMesh(cubeMatrix, 600, -100, -10)
-createMesh(cubeMatrix, 700, -100, -10)
-createMesh(squareMatrix, -200, -150, 0)
-
+javascriptOut2 = `
 function clearWindow() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
@@ -279,7 +272,7 @@ function startBuild() {
     };
     }());
     
-    var data = htmlPageOut1 + cssStyle1 + htmlPageOut2 + javascriptOut1 + htmlPageOut3,
+    var data = htmlPageOut1 + cssStyle1 + htmlPageOut2 + javascriptOut1 + createObjects() + javascriptOut2 + htmlPageOut3,
         fileName = "game.html";
     
     saveData(data, fileName);
