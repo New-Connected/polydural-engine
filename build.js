@@ -225,7 +225,8 @@ function drawMeshes() {
             }
         }
     }
-}`
+}
+`
 
 function createObjects() {
     objectsString = ""
