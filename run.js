@@ -13,4 +13,6 @@ function gameUpdate() {
     drawUI()
 }
 
+createMesh(cameraMatrix, compiledCamX, compiledCamY, compiledCamZ)
+
 setInterval(gameUpdate, 1)

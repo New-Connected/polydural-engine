@@ -2,6 +2,10 @@ camX = 0
 camY = 0
 camZ = 1
 
+compiledCamX = 0
+compiledCamY = 0
+compiledCamZ = 1
+
 wClicked = 0
 aClicked = 0
 sClicked = 0
@@ -16,6 +20,7 @@ function checkMove() {
     camX = camX - dClicked
     camY = camY - qClicked
     camY = camY + eClicked
+    document.getElementById("camPos").innerHTML = "camera position: " + camX + ", " + camY + ", " + camZ
 }
 
 document.addEventListener('keydown', function(event) {

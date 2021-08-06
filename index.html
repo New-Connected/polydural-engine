@@ -21,16 +21,18 @@
         <div id="objectHolder">
             <button id="addObject" onclick="addObject('cube')">add cube</button>
             <div id="amountOfObjects">amount of objects: 0</div>
+            <button class="object" id="camera" onclick="readCameraData('camera(1)', 'camera1')">camera (1)</button>
         </div>
         <div id="objectInspector">
-            <div id="objectName">name: </div>
-            <div id="objectId">id: </div>
-            <div id="objectVertices">amount of vertices: </div>
-            <div id="objectColor">color: </div>
+            <div id="objectName">name: camera</div>
+            <div id="objectId">camera: 1</div>
+            <div id="objectVertices">amount of vertices: 1</div>
+            <div id="objectColor">color: #000000</div>
             <input type="number" placeholder="X" id="objectX" onkeydown="updatePos()" onkeyup="updatePos()"><br>
             <input type="number" placeholder="Y" id="objectY" onkeydown="updatePos()" onkeyup="updatePos()"><br>
             <input type="number" placeholder="Z" id="objectZ" onkeydown="updatePos()" onkeyup="updatePos()"><br>
             <button onclick="deleteObject()">delete object</button>
+            <div id="camPos">camera position: 0, 0, 1</div>
         </div>
 
         <div id="buildOut"></div>
@@ -38,11 +40,11 @@
         <script src="save.js"></script>
         <script src="renderUI.js"></script>
         <script src="objects.js"></script>
-        <script src="build.js"></script>
         <script src="defaultObjects.js"></script>
         <script src="renderMeshes.js"></script>
         <script src="camera.js"></script>
         <script src="run.js"></script>
         <script src="fps.js"></script>
+        <script src="build.js"></script>
     </body>
 </html>

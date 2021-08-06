@@ -1,3 +1,18 @@
+function getCamX() {
+    compiledCamX1 = 0 - compiledMeshes[0][1]
+    return compiledCamX1
+}
+function getCamY() {
+    compiledCamY1 = 0 - compiledMeshes[0][2]
+    return compiledCamY1
+}
+function getCamZ() {
+    compiledCamZ1 = 0 - compiledMeshes[0][3]
+    return compiledCamZ1
+}
+compiledCamY1 = 0 - compiledMeshes[0][2]
+compiledCamZ1 = 0 - compiledMeshes[0][3]
+
 htmlPageOut1 = `
 <!DOCTYPE html>
 <html lang="en">
@@ -26,16 +41,17 @@ htmlPageOut2 = `
 <body>
 <script>
 `
-javascriptOut1 = `
+function javascriptOut1() { 
+    return `
 canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 ctx = canvas.getContext("2d");
 
-camX = 0
-camY = 0
-camZ = 1
+camX = ` + getCamX() + `
+camY = ` + getCamY() + `
+camZ = ` + getCamZ() + `
 
 wClicked = 0
 aClicked = 0
@@ -147,6 +163,18 @@ cubeMatrix = [
         [-50, 50, -10]
     ]
 ]
+cameraMatrix  = [
+    [
+        [-50, -50, 0],
+        [50, -50, 0],
+        [50, 0, 0],
+        [-90, -50, 0],
+        [-90, 50, 0],
+        [50, 0, 0],
+        [50, 50, 0],
+        [-50, 50, 0]
+    ]
+]
 
 compiledMeshes = []
 
@@ -227,10 +255,11 @@ function drawMeshes() {
     }
 }
 `
+}
 
 function createObjects() {
     objectsString = ""
-    for (x = 0; x < compiledMeshes.length; x++) {
+    for (x = 1; x < compiledMeshes.length; x++) {
         objectsString = objectsString + "createMesh(" + compiledMeshes[x][7] + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ")\n"
     }
     return objectsString
@@ -273,7 +302,7 @@ function startBuild() {
     };
     }());
     
-    var data = htmlPageOut1 + cssStyle1 + htmlPageOut2 + javascriptOut1 + createObjects() + javascriptOut2 + htmlPageOut3,
+    var data = htmlPageOut1 + cssStyle1 + htmlPageOut2 + javascriptOut1() + createObjects() + javascriptOut2 + htmlPageOut3,
         fileName = "game.html";
     
     saveData(data, fileName);

@@ -1,6 +1,7 @@
 canvas = document.getElementById("gameWindow")
 ctx = canvas.getContext("2d")
 
+cameraData = [0, 0, 1]
 compiledMeshes = []
 
 colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"]
