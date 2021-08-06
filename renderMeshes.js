@@ -4,6 +4,8 @@ ctx = canvas.getContext("2d")
 cameraData = [0, 0, 1]
 compiledMeshes = []
 
+windowOpen = "scene"
+
 colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"]
 
 function MatrixToVertices(matrix) {
@@ -54,29 +56,58 @@ function createMesh(matrix, x, y, z, name, buttonName, matrixName) {
 }
 
 function drawMeshes() {
-    for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
-        if ((0 - compiledMeshes[meshCalc][3]) + -90 < camZ) {
-            let calculatedVertices1 = compiledMeshes[meshCalc]
-            let calculatedVertices = calculateVertices(calculatedVertices1[0], 
-                                                    calculatedVertices1[1], 
-                                                    calculatedVertices1[2], 
-                                                    calculatedVertices1[3],
-                                                    camX, camY, camZ)
-            ctx.strokeStyle = '#000000'
-            ctx.lineWidth = 5;
-            for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
-                ctx.fillStyle = colors[mesh]
-                ctx.beginPath()
-                for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                    if (face == 0) {
-                        ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                    } else {
-                        ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+    if (windowOpen == "scene") {
+        for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
+            if ((0 - compiledMeshes[meshCalc][3]) + -90 < camZ) {
+                let calculatedVertices1 = compiledMeshes[meshCalc]
+                let calculatedVertices = calculateVertices(calculatedVertices1[0], 
+                                                        calculatedVertices1[1], 
+                                                        calculatedVertices1[2], 
+                                                        calculatedVertices1[3],
+                                                        camX, camY, camZ)
+                ctx.strokeStyle = '#000000'
+                ctx.lineWidth = 5;
+                for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+                    ctx.fillStyle = colors[mesh]
+                    ctx.beginPath()
+                    for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                        if (face == 0) {
+                            ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                        } else {
+                            ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                        }
                     }
+                    ctx.closePath()
+                    //ctx.stroke()
+                    ctx.fill()
                 }
-                ctx.closePath()
-                //ctx.stroke()
-                ctx.fill()
+            }
+        }
+    } else {
+        for (meshCalc = 1; meshCalc < compiledMeshes.length; meshCalc++) {
+            if ((0 - compiledMeshes[meshCalc][3]) + -90 < camZ) {
+                let calculatedVertices1 = compiledMeshes[meshCalc]
+                let calculatedVertices = calculateVertices(calculatedVertices1[0], 
+                                                        calculatedVertices1[1], 
+                                                        calculatedVertices1[2], 
+                                                        calculatedVertices1[3],
+                                                        camX, camY, camZ)
+                ctx.strokeStyle = '#000000'
+                ctx.lineWidth = 5;
+                for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+                    ctx.fillStyle = colors[mesh]
+                    ctx.beginPath()
+                    for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                        if (face == 0) {
+                            ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                        } else {
+                            ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                        }
+                    }
+                    ctx.closePath()
+                    //ctx.stroke()
+                    ctx.fill()
+                }
             }
         }
     }
