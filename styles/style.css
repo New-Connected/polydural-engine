@@ -129,12 +129,14 @@ button:hover {
     position: absolute;
     left: 85%;
     width: 5%;
+    height: 100%;
 }
 
 #save {
     position: absolute;
     left: 80%;
     width: 5%;
+    height: 100%;
 }
 
 #camera {

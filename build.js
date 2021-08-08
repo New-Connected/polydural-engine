@@ -139,34 +139,34 @@ cubeMatrix = [
         [-50, 50, 0]
     ],
     [
-        [-50, -50, -10],
-        [50, -50, -10],
-        [50, 50, -10],
-        [-50, 50, -10]
+        [-50, -50, -50],
+        [50, -50, -50],
+        [50, 50, -50],
+        [-50, 50, -50]
     ],
     [
-        [-50, -50, -10],
+        [-50, -50, -50],
         [-50, -50, 0],
         [-50, 50, 0],
-        [-50, 50, -10]
+        [-50, 50, -50]
     ],
     [
         [-50, -50, 0],
         [50, -50, 0],
-        [50, -50, -10],
-        [-50, -50, -10]
+        [50, -50, -50],
+        [-50, -50, -50]
     ],
     [
         [50, -50, 0],
         [50, 50, 0],
-        [50, 50, -10],
-        [50, -50, -10]
+        [50, 50, -50],
+        [50, -50, -50]
     ],
     [
         [-50, 50, 0],
         [50, 50, 0],
-        [50, 50, -10],
-        [-50, 50, -10]
+        [50, 50, -50],
+        [-50, 50, -50]
     ]
 ]
 
@@ -177,27 +177,27 @@ triangleMatrix = [
         [-50, 50, 0]
     ],
     [
-        [0, -50, -20],
-        [50, 50, -20],
-        [-50, 50, -20]
+        [0, -50, -50],
+        [50, 50, -50],
+        [-50, 50, -50]
     ],
     [
-        [0, -50, -20],
+        [0, -50, -50],
         [0, -50, 0],
         [-50, 50, 0],
-        [-50, 50, -20]
+        [-50, 50, -50]
     ],
     [
         [0, -50, 0],
         [50, 50, 0],
-        [50, 50, -20],
-        [0, -50, -20]
+        [50, 50, -50],
+        [0, -50, -50]
     ],
     [
         [-50, 50, 0],
         [50, 50, 0],
-        [50, 50, -20],
-        [-50, 50, -20]
+        [50, 50, -50],
+        [-50, 50, -50]
     ]
 ]
 
@@ -231,7 +231,7 @@ function ToPolygon(matrix) {
 }
 
 function calculateDistance(point, x, y, z, camX, camY, camZ) {
-    Fov = (point.z + z + camZ + 100) / 2
+    Fov = (point.z + z + camZ + 100) / 3
     point.x = (point.x + x + camX) / Fov
     point.y = (point.y + y + camY) / Fov
 }
@@ -303,33 +303,35 @@ function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rota
 
 function drawMeshes() {
     for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
-        let calculatedVertices1 = compiledMeshes[meshCalc]
-        let calculatedVertices = calculateVertices(calculatedVertices1[0], 
-                                                calculatedVertices1[1], 
-                                                calculatedVertices1[2], 
-                                                calculatedVertices1[3],
-                                                camX, camY, camZ,
-                                                calculatedVertices1[4],
-                                                calculatedVertices1[5],
-                                                calculatedVertices1[6],
-                                                calculatedVertices1[7],
-                                                calculatedVertices1[8],
-                                                calculatedVertices1[9])
-        ctx.strokeStyle = '#000000'
-        ctx.lineWidth = 5;
-        for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
-            ctx.fillStyle = colors[mesh]
-            ctx.beginPath()
-            for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                if (face == 0) {
-                    ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                } else {
-                    ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+        if (compiledMeshes[meshCalc][3] - 50 < camZ) {
+            let calculatedVertices1 = compiledMeshes[meshCalc]
+            let calculatedVertices = calculateVertices(calculatedVertices1[0], 
+                                                    calculatedVertices1[1], 
+                                                    calculatedVertices1[2], 
+                                                    calculatedVertices1[3],
+                                                    camX, camY, camZ,
+                                                    calculatedVertices1[4],
+                                                    calculatedVertices1[5],
+                                                    calculatedVertices1[6],
+                                                    calculatedVertices1[7],
+                                                    calculatedVertices1[8],
+                                                    calculatedVertices1[9])
+            ctx.strokeStyle = '#000000'
+            ctx.lineWidth = 5;
+            for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+                ctx.fillStyle = colors[mesh]
+                ctx.beginPath()
+                for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                    if (face == 0) {
+                        ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                    } else {
+                        ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                    }
                 }
+                ctx.closePath()
+                //ctx.stroke()
+                ctx.fill()
             }
-            ctx.closePath()
-            //ctx.stroke()
-            ctx.fill()
         }
     }
 }
