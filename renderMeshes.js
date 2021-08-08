@@ -129,8 +129,39 @@ function drawMeshes() {
                         }
                     }
                     ctx.closePath()
-                        //ctx.stroke()
                     ctx.fill()
+                }
+            }
+        }
+    } else if (windowOpen == "xray") {
+        for (meshCalc = 1; meshCalc < compiledMeshes.length; meshCalc++) {
+            if (compiledMeshes[meshCalc][3] - 50 < camZ) {
+                let calculatedVertices1 = compiledMeshes[meshCalc]
+                let calculatedVertices = calculateVertices(calculatedVertices1[0],
+                    calculatedVertices1[1],
+                    calculatedVertices1[2],
+                    calculatedVertices1[3],
+                    camX, camY, camZ,
+                    calculatedVertices1[8],
+                    calculatedVertices1[9],
+                    calculatedVertices1[10],
+                    calculatedVertices1[11],
+                    calculatedVertices1[12],
+                    calculatedVertices1[13])
+                ctx.strokeStyle = '#000000'
+                ctx.lineWidth = 5;
+                for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+                    ctx.fillStyle = colors[mesh]
+                    ctx.beginPath()
+                    for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                        if (face == 0) {
+                            ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                        } else {
+                            ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                        }
+                    }
+                    ctx.closePath()
+                    ctx.stroke()
                 }
             }
         }
@@ -162,10 +193,17 @@ function drawMeshes() {
                         }
                     }
                     ctx.closePath()
-                        //ctx.stroke()
                     ctx.fill()
                 }
             }
+        }
+    } else if (windowOpen == "code") {
+        ctx.fillStyle = "#000000"
+        ctx.beginPath()
+        ctx.rect(0, 0, canvas.width, canvas.height)
+        ctx.fill()
+        for (node = 0; node < nodes.length; node++) {
+            drawNode(nodes[node][0], 100, 100, nodes[node][1])
         }
     }
 }

@@ -1,9 +1,9 @@
 #gameWindow {
     width: 50%;
-    height: 70%;
+    height: 69%;
     position: absolute;
     left: 25%;
-    top: 5%;
+    top: 5.5%;
     background-color: white;
 }
 
@@ -56,16 +56,23 @@ body {
     height: 100%;
 }
 
-#gameView {
+#xrayView {
     position: absolute;
     left: 35%;
     width: 10%;
     height: 100%;
 }
 
-#codeView {
+#gameView {
     position: absolute;
     left: 45%;
+    width: 10%;
+    height: 100%;
+}
+
+#codeView {
+    position: absolute;
+    left: 55%;
     width: 10%;
     height: 100%;
 }
