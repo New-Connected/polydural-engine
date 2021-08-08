@@ -58,6 +58,14 @@ dClicked = 0
 qClicked = 0
 eClicked = 0
 
+class Vec {
+    constructor(x = 0, y = 0, z = 0) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+}
+
 function checkMove() {
     camZ = camZ - wClicked
     camZ = camZ + sClicked
@@ -245,11 +253,41 @@ function resize(point, sizeX, sizeY, sizeZ) {
     point.z = point.z * sizeZ
 }
 
-function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ) {
+function rotate(point, rotation) {
+    const sin = new Vec(
+        Math.sin(rotation.x),
+        Math.sin(rotation.y),
+        Math.sin(rotation.z));
+
+    const cos = new Vec(
+        Math.cos(rotation.x),
+        Math.cos(rotation.y),
+        Math.cos(rotation.z));
+
+    let temp1, temp2;
+
+    temp1 = cos.x * point.y + sin.x * point.z;
+    temp2 = -sin.x * point.y + cos.x * point.z;
+    point.y = temp1;
+    point.z = temp2;
+
+    temp1 = cos.y * point.x + sin.y * point.z;
+    temp2 = -sin.y * point.x + cos.y * point.z;
+    point.x = temp1;
+    point.z = temp2;
+
+    temp1 = cos.z * point.x + sin.z * point.y;
+    temp2 = -sin.z * point.x + cos.z * point.y;
+    point.x = temp1;
+    point.y = temp2;
+}
+
+function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
     for (face = 0; face < calculatedMatrix.length; face++) {
         calculatedMatrix[face].forEach(vert => {
             resize(vert, sizeX, sizeY, sizeZ)
+            rotate(vert, { x: rotateX / 10, y: rotateY / 10, z: rotateZ / 10 })
             calculateDistance(vert, x, y, z, camX, camY, camZ)
             zoom(vert, 8)
             positionMesh(vert)
@@ -258,39 +296,40 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
     return calculatedMatrix
 }
 
-function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ) {
+function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ])
+    compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ])
 }
 
 function drawMeshes() {
     for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
-        if ((0 - compiledMeshes[meshCalc][3]) + -90 < camZ) {
-            let calculatedVertices1 = compiledMeshes[meshCalc]
-            let calculatedVertices = calculateVertices(calculatedVertices1[0], 
-                                                    calculatedVertices1[1], 
-                                                    calculatedVertices1[2], 
-                                                    calculatedVertices1[3],
-                                                    camX, camY, camZ,
-                                                    calculatedVertices1[4],
-                                                    calculatedVertices1[5],
-                                                    calculatedVertices1[6])
-            ctx.strokeStyle = '#000000'
-            ctx.lineWidth = 5;
-            for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
-                ctx.fillStyle = colors[mesh]
-                ctx.beginPath()
-                for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                    if (face == 0) {
-                        ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                    } else {
-                        ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                    }
+        let calculatedVertices1 = compiledMeshes[meshCalc]
+        let calculatedVertices = calculateVertices(calculatedVertices1[0], 
+                                                calculatedVertices1[1], 
+                                                calculatedVertices1[2], 
+                                                calculatedVertices1[3],
+                                                camX, camY, camZ,
+                                                calculatedVertices1[4],
+                                                calculatedVertices1[5],
+                                                calculatedVertices1[6],
+                                                calculatedVertices1[7],
+                                                calculatedVertices1[8],
+                                                calculatedVertices1[9])
+        ctx.strokeStyle = '#000000'
+        ctx.lineWidth = 5;
+        for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+            ctx.fillStyle = colors[mesh]
+            ctx.beginPath()
+            for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                if (face == 0) {
+                    ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                } else {
+                    ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
                 }
-                ctx.closePath()
-                //ctx.stroke()
-                ctx.fill()
             }
+            ctx.closePath()
+            //ctx.stroke()
+            ctx.fill()
         }
     }
 }
@@ -300,7 +339,7 @@ function drawMeshes() {
 function createObjects() {
     objectsString = ""
     for (x = 1; x < compiledMeshes.length; x++) {
-        objectsString = objectsString + "createMesh(" + compiledMeshes[x][7] + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ", " + compiledMeshes[x][8] + ", " + compiledMeshes[x][9] + ", " + compiledMeshes[x][10] + ")\n"
+        objectsString = objectsString + "createMesh(" + compiledMeshes[x][7] + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ", " + compiledMeshes[x][8] + ", " + compiledMeshes[x][9] + ", " + compiledMeshes[x][10] + ", " + compiledMeshes[x][11] + ", " + compiledMeshes[x][12] + ", " + compiledMeshes[x][13] + ")\n"
     }
     return objectsString
 }

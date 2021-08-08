@@ -38,7 +38,11 @@
         <br>
         <input type="number" placeholder="X" id="sizeX" onkeydown="updateSize()" onkeyup="updateSize()"><br>
         <input type="number" placeholder="Y" id="sizeY" onkeydown="updateSize()" onkeyup="updateSize()"><br>
-        <input type="number" placeholder="Z" id="sizeZ" onkeydown="updateSize()" onkeyup="updateSize()"><br>
+        <input type="number" placeholder="Z" id="sizeZ" onkeydown="updateSize()" onkeyup="updateSize()"><br> rotation:
+        <br>
+        <input type="number" placeholder="X" id="rotationX" onkeydown="updateRotation()" onkeyup="updateRotation()" onchange="updateRotation()"><br>
+        <input type="number" placeholder="Y" id="rotationY" onkeydown="updateRotation()" onkeyup="updateRotation()" onchange="updateRotation()"><br>
+        <input type="number" placeholder="Z" id="rotationZ" onkeydown="updateRotation()" onkeyup="updateRotation()" onchange="updateRotation()"><br>
         <button onclick="deleteObject()" id="deleteObj">delete object</button>
         <div id="camPos">camera position: 0, 0, 1</div>
     </div>

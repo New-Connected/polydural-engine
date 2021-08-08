@@ -6,7 +6,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "cube(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1)
+        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0)
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -23,7 +23,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "triangle(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(triangleMatrix, 0, 0, 0, name, buttonName, "triangleMatrix", 1, 1, 1)
+        createMesh(triangleMatrix, 0, 0, 0, name, buttonName, "triangleMatrix", 1, 1, 1, 0, 0, 0)
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -54,6 +54,9 @@ function readObjectData(object, buttonName1) {
             document.getElementById("sizeX").value = compiledMeshes[x][8]
             document.getElementById("sizeY").value = compiledMeshes[x][9]
             document.getElementById("sizeZ").value = compiledMeshes[x][10]
+            document.getElementById("rotationX").value = compiledMeshes[x][11]
+            document.getElementById("rotationY").value = compiledMeshes[x][12]
+            document.getElementById("rotationZ").value = compiledMeshes[x][13]
             document.getElementById("deleteObj").style.display = "block"
         }
     }
@@ -69,6 +72,9 @@ function readCameraData(object, buttonName1) {
     document.getElementById("sizeX").value = compiledMeshes[0][8]
     document.getElementById("sizeY").value = compiledMeshes[0][9]
     document.getElementById("sizeZ").value = compiledMeshes[0][10]
+    document.getElementById("rotationX").value = compiledMeshes[0][11]
+    document.getElementById("rotationY").value = compiledMeshes[0][12]
+    document.getElementById("rotationZ").value = compiledMeshes[0][13]
     document.getElementById("deleteObj").style.display = "none"
 }
 
@@ -80,13 +86,13 @@ function updatePos() {
     } else {
         compiledCamX = Number(document.getElementById("objectX").value)
         compiledCamY = Number(document.getElementById("objectY").value)
-        compiledCamZ = Number(document.getElementById("objectZ").value)
+        compiledCamZ = 0 - Number(document.getElementById("objectZ").value)
         cameraData[0] = Number(document.getElementById("objectX").value)
         cameraData[1] = Number(document.getElementById("objectY").value)
-        cameraData[2] = Number(document.getElementById("objectZ").value)
+        cameraData[2] = 0 - Number(document.getElementById("objectZ").value)
         compiledMeshes[0][1] = Number(document.getElementById("objectX").value)
         compiledMeshes[0][2] = Number(document.getElementById("objectY").value)
-        compiledMeshes[0][3] = Number(document.getElementById("objectZ").value)
+        compiledMeshes[0][3] = 0 - Number(document.getElementById("objectZ").value)
     }
 }
 
@@ -99,6 +105,18 @@ function updateSize() {
         compiledMeshes[0][8] = Number(document.getElementById("sizeX").value)
         compiledMeshes[0][9] = Number(document.getElementById("sizeY").value)
         compiledMeshes[0][10] = Number(document.getElementById("sizeZ").value)
+    }
+}
+
+function updateRotation() {
+    if (objectSelected[0] != -1) {
+        compiledMeshes[objectSelected[0]][11] = Number(document.getElementById("rotationX").value)
+        compiledMeshes[objectSelected[0]][12] = Number(document.getElementById("rotationY").value)
+        compiledMeshes[objectSelected[0]][13] = Number(document.getElementById("rotationZ").value)
+    } else {
+        compiledMeshes[0][11] = Number(document.getElementById("rotationX").value)
+        compiledMeshes[0][12] = Number(document.getElementById("rotationY").value)
+        compiledMeshes[0][13] = Number(document.getElementById("rotationZ").value)
     }
 }
 
