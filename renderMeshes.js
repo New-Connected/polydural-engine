@@ -10,9 +10,9 @@ colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"]
 
 function MatrixToVertices(matrix) {
     return {
-         x: matrix[0],
-         y: matrix[1],
-         z: matrix[2]
+        x: matrix[0],
+        y: matrix[1],
+        z: matrix[2]
     }
 }
 
@@ -37,10 +37,17 @@ function positionMesh(point) {
     point.y = point.y + canvas.height / 2
 }
 
-function calculateVertices(matrix, x, y, z, camX, camY, camZ) {
+function resize(point, sizeX, sizeY, sizeZ) {
+    point.x = point.x * sizeX
+    point.y = point.y * sizeY
+    point.z = point.z * sizeZ
+}
+
+function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
     for (face = 0; face < calculatedMatrix.length; face++) {
         calculatedMatrix[face].forEach(vert => {
+            resize(vert, sizeX, sizeY, sizeZ)
             calculateDistance(vert, x, y, z, camX, camY, camZ)
             zoom(vert, 8)
             positionMesh(vert)
@@ -49,9 +56,9 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ) {
     return calculatedMatrix
 }
 
-function createMesh(matrix, x, y, z, name, buttonName, matrixName) {
+function createMesh(matrix, x, y, z, name, buttonName, matrixName, sizeX, sizeY, sizeZ) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName])
+    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName, sizeX, sizeY, sizeZ])
     console.log(compiledMeshes)
 }
 
@@ -60,11 +67,14 @@ function drawMeshes() {
         for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
             if ((0 - compiledMeshes[meshCalc][3]) + -90 < camZ) {
                 let calculatedVertices1 = compiledMeshes[meshCalc]
-                let calculatedVertices = calculateVertices(calculatedVertices1[0], 
-                                                        calculatedVertices1[1], 
-                                                        calculatedVertices1[2], 
-                                                        calculatedVertices1[3],
-                                                        camX, camY, camZ)
+                let calculatedVertices = calculateVertices(calculatedVertices1[0],
+                    calculatedVertices1[1],
+                    calculatedVertices1[2],
+                    calculatedVertices1[3],
+                    camX, camY, camZ,
+                    calculatedVertices1[8],
+                    calculatedVertices1[9],
+                    calculatedVertices1[10])
                 ctx.strokeStyle = '#000000'
                 ctx.lineWidth = 5;
                 for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
@@ -78,7 +88,7 @@ function drawMeshes() {
                         }
                     }
                     ctx.closePath()
-                    //ctx.stroke()
+                        //ctx.stroke()
                     ctx.fill()
                 }
             }
@@ -87,11 +97,14 @@ function drawMeshes() {
         for (meshCalc = 1; meshCalc < compiledMeshes.length; meshCalc++) {
             if ((0 - compiledMeshes[meshCalc][3]) + -90 < camZ) {
                 let calculatedVertices1 = compiledMeshes[meshCalc]
-                let calculatedVertices = calculateVertices(calculatedVertices1[0], 
-                                                        calculatedVertices1[1], 
-                                                        calculatedVertices1[2], 
-                                                        calculatedVertices1[3],
-                                                        camX, camY, camZ)
+                let calculatedVertices = calculateVertices(calculatedVertices1[0],
+                    calculatedVertices1[1],
+                    calculatedVertices1[2],
+                    calculatedVertices1[3],
+                    camX, camY, camZ,
+                    calculatedVertices1[8],
+                    calculatedVertices1[9],
+                    calculatedVertices1[10])
                 ctx.strokeStyle = '#000000'
                 ctx.lineWidth = 5;
                 for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
@@ -105,7 +118,7 @@ function drawMeshes() {
                         }
                     }
                     ctx.closePath()
-                    //ctx.stroke()
+                        //ctx.stroke()
                     ctx.fill()
                 }
             }

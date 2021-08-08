@@ -1,19 +1,14 @@
 function getCamX() {
-    compiledCamX1 = 0 - compiledMeshes[0][1]
-    return compiledCamX1
+    return 0 - compiledMeshes[0][1]
 }
 
 function getCamY() {
-    compiledCamY1 = 0 - compiledMeshes[0][2]
-    return compiledCamY1
+    return 0 - compiledMeshes[0][2]
 }
 
 function getCamZ() {
-    compiledCamZ1 = 0 - compiledMeshes[0][3]
-    return compiledCamZ1
+    return 0 - compiledMeshes[0][3]
 }
-compiledCamY1 = 0 - compiledMeshes[0][2]
-compiledCamZ1 = 0 - compiledMeshes[0][3]
 
 htmlPageOut1 = `
 <!DOCTYPE html>
@@ -185,16 +180,10 @@ triangleMatrix = [
         [-50, 50, -20]
     ],
     [
-        [-50, -50, 0],
-        [50, -50, 0],
-        [50, -50, -20],
-        [-50, -50, -20]
-    ],
-    [
-        [50, -50, 0],
+        [0, -50, 0],
         [50, 50, 0],
         [50, 50, -20],
-        [50, -50, -20]
+        [0, -50, -20]
     ],
     [
         [-50, 50, 0],
@@ -250,10 +239,17 @@ function positionMesh(point) {
     point.y = point.y + canvas.height / 2
 }
 
-function calculateVertices(matrix, x, y, z, camX, camY, camZ) {
+function resize(point, sizeX, sizeY, sizeZ) {
+    point.x = point.x * sizeX
+    point.y = point.y * sizeY
+    point.z = point.z * sizeZ
+}
+
+function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
     for (face = 0; face < calculatedMatrix.length; face++) {
         calculatedMatrix[face].forEach(vert => {
+            resize(vert, sizeX, sizeY, sizeZ)
             calculateDistance(vert, x, y, z, camX, camY, camZ)
             zoom(vert, 8)
             positionMesh(vert)
@@ -262,9 +258,9 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ) {
     return calculatedMatrix
 }
 
-function createMesh(matrix, x, y, z) {
+function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z])
+    compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ])
 }
 
 function drawMeshes() {
@@ -275,7 +271,10 @@ function drawMeshes() {
                                                     calculatedVertices1[1], 
                                                     calculatedVertices1[2], 
                                                     calculatedVertices1[3],
-                                                    camX, camY, camZ)
+                                                    camX, camY, camZ,
+                                                    calculatedVertices1[4],
+                                                    calculatedVertices1[5],
+                                                    calculatedVertices1[6])
             ctx.strokeStyle = '#000000'
             ctx.lineWidth = 5;
             for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
@@ -301,7 +300,7 @@ function drawMeshes() {
 function createObjects() {
     objectsString = ""
     for (x = 1; x < compiledMeshes.length; x++) {
-        objectsString = objectsString + "createMesh(" + compiledMeshes[x][7] + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ")\n"
+        objectsString = objectsString + "createMesh(" + compiledMeshes[x][7] + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ", " + compiledMeshes[x][8] + ", " + compiledMeshes[x][9] + ", " + compiledMeshes[x][10] + ")\n"
     }
     return objectsString
 }

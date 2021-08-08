@@ -31,10 +31,15 @@
         <div id="objectId">camera: 1</div>
         <div id="objectVertices">amount of vertices: 1</div>
         <div id="objectColor">color: #000000</div>
+        position:<br>
         <input type="number" placeholder="X" id="objectX" onkeydown="updatePos()" onkeyup="updatePos()"><br>
         <input type="number" placeholder="Y" id="objectY" onkeydown="updatePos()" onkeyup="updatePos()"><br>
-        <input type="number" placeholder="Z" id="objectZ" onkeydown="updatePos()" onkeyup="updatePos()"><br>
-        <button onclick="deleteObject()">delete object</button>
+        <input type="number" placeholder="Z" id="objectZ" onkeydown="updatePos()" onkeyup="updatePos()"><br> size:
+        <br>
+        <input type="number" placeholder="X" id="sizeX" onkeydown="updateSize()" onkeyup="updateSize()"><br>
+        <input type="number" placeholder="Y" id="sizeY" onkeydown="updateSize()" onkeyup="updateSize()"><br>
+        <input type="number" placeholder="Z" id="sizeZ" onkeydown="updateSize()" onkeyup="updateSize()"><br>
+        <button onclick="deleteObject()" id="deleteObj">delete object</button>
         <div id="camPos">camera position: 0, 0, 1</div>
     </div>
 
