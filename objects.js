@@ -6,7 +6,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "cube(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(cubeMatrix, 150 * amountOfObjects, 0, 0, name, buttonName, "cubeMatrix")
+        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix")
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -15,13 +15,29 @@ function addObject(objectType) {
         button.innerHTML = "cube (" + amountOfObjects + ")"
         button.id = "object" + nameNum
         button.className = "object"
-        button.style.top = (40 * (amountOfObjects - 1) + 20) + "px"
-        button.onclick = function () {
+        button.onclick = function() {
+            readObjectData(name, buttonName)
+        }
+    }
+    if (objectType == "triangle") {
+        let nameNum = amountOfObjects + 1
+        let name = "triangle(" + nameNum + ")"
+        let buttonName = "object" + nameNum
+        createMesh(triangleMatrix, 0, 0, 0, name, buttonName, "triangleMatrix")
+        amountOfObjects = amountOfObjects + 1
+        document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
+        objectHolder = document.getElementById("objectHolder")
+        button = document.createElement("button");
+        objectHolder.appendChild(button);
+        button.innerHTML = "triangle (" + amountOfObjects + ")"
+        button.id = "object" + nameNum
+        button.className = "object"
+        button.onclick = function() {
             readObjectData(name, buttonName)
         }
     }
     for (x = 1; x < compiledMeshes.length; x++) {
-        document.getElementById(compiledMeshes[x][5]).style.top = (40 * (x) + 20) + "px"
+        document.getElementById(compiledMeshes[x][5]).style.top = (6 * (x) + 4) + "%"
     }
 }
 
@@ -82,16 +98,31 @@ function reloadObjects() {
     document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
     for (x = 1; x < amountOfObjects; x++) {
         buttonNum = x + 1
-        let name = "cube(" + buttonNum + ")"
-        let buttonName = "object" + buttonNum
-        button = document.createElement("button");
-        objectHolder.appendChild(button);
-        button.innerHTML = "cube (" + buttonNum + ")"
-        button.id = "object" + buttonNum
-        button.className = "object"
-        button.style.top = (40 * (x) + 20) + "px"
-        button.onclick = function () {
-            readObjectData(name, buttonName)
+        if (compiledMeshes[x][7] == "cubeMatrix") {
+            let name = "cube(" + buttonNum + ")"
+            let buttonName = "object" + buttonNum
+            button = document.createElement("button");
+            objectHolder.appendChild(button);
+            button.innerHTML = "cube (" + buttonNum + ")"
+            button.id = "object" + buttonNum
+            button.className = "object"
+            button.style.top = (40 * (x) + 20) + "px"
+            button.onclick = function() {
+                readObjectData(name, buttonName)
+            }
+        }
+        if (compiledMeshes[x][7] == "triangleMatrix") {
+            let name = "triangle(" + buttonNum + ")"
+            let buttonName = "object" + buttonNum
+            button = document.createElement("button");
+            objectHolder.appendChild(button);
+            button.innerHTML = "triangle (" + buttonNum + ")"
+            button.id = "object" + buttonNum
+            button.className = "object"
+            button.style.top = (40 * (x) + 20) + "px"
+            button.onclick = function() {
+                readObjectData(name, buttonName)
+            }
         }
     }
 }

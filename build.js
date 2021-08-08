@@ -2,10 +2,12 @@ function getCamX() {
     compiledCamX1 = 0 - compiledMeshes[0][1]
     return compiledCamX1
 }
+
 function getCamY() {
     compiledCamY1 = 0 - compiledMeshes[0][2]
     return compiledCamY1
 }
+
 function getCamZ() {
     compiledCamZ1 = 0 - compiledMeshes[0][3]
     return compiledCamZ1
@@ -41,7 +43,8 @@ htmlPageOut2 = `
 <body>
 <script>
 `
-function javascriptOut1() { 
+
+function javascriptOut1() {
     return `
 canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
@@ -163,6 +166,44 @@ cubeMatrix = [
         [-50, 50, -10]
     ]
 ]
+
+triangleMatrix = [
+    [
+        [0, -50, 0],
+        [50, 50, 0],
+        [-50, 50, 0]
+    ],
+    [
+        [0, -50, -20],
+        [50, 50, -20],
+        [-50, 50, -20]
+    ],
+    [
+        [0, -50, -20],
+        [0, -50, 0],
+        [-50, 50, 0],
+        [-50, 50, -20]
+    ],
+    [
+        [-50, -50, 0],
+        [50, -50, 0],
+        [50, -50, -20],
+        [-50, -50, -20]
+    ],
+    [
+        [50, -50, 0],
+        [50, 50, 0],
+        [50, 50, -20],
+        [50, -50, -20]
+    ],
+    [
+        [-50, 50, 0],
+        [50, 50, 0],
+        [50, 50, -20],
+        [-50, 50, -20]
+    ]
+]
+
 cameraMatrix  = [
     [
         [-50, -50, 0],
@@ -287,23 +328,23 @@ htmlPageOut3 = `
 `
 
 function startBuild() {
-    var saveData = (function () {
-    var a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style = "display: none";
-    return function (data, fileName) {
-        var json = data,
-            blob = new Blob([json], {type: "octet/stream"}),
-            url = window.URL.createObjectURL(blob);
-        a.href = url;
-        a.download = fileName;
-        a.click();
-        window.URL.revokeObjectURL(url);
-    };
+    var saveData = (function() {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function(data, fileName) {
+            var json = data,
+                blob = new Blob([json], { type: "octet/stream" }),
+                url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
     }());
-    
+
     var data = htmlPageOut1 + cssStyle1 + htmlPageOut2 + javascriptOut1() + createObjects() + javascriptOut2 + htmlPageOut3,
         fileName = "game.html";
-    
+
     saveData(data, fileName);
 }

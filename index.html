@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>polydural engine</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <canvas width="1000" height="1000" id="gameWindow"></canvas>
-        <div id="menuBar">
-            <div id="fpsLabel">fps: 0</div>
-            <button id="sceneView" onclick="sceneView()">scene editor</button>
-            <button id="gameView" onclick="gameView()">game window</button>
-            <button id="codeView" onclick="codeView()">code editor</button>
-            <button id="build" onclick="startBuild()">build game</button>
-            <button id="save" onclick="saveScene()">save</button>
-            <button id="load" onclick="loadScene()">load</button>
-        </div>
-        <div id="objectHolder">
-            <button id="addObject" onclick="addObject('cube')">add cube</button>
-            <div id="amountOfObjects">amount of objects: 0</div>
-            <button class="object" id="camera" onclick="readCameraData('camera(1)', 'camera1')">camera (1)</button>
-        </div>
-        <div id="objectInspector">
-            <div id="objectName">name: camera</div>
-            <div id="objectId">camera: 1</div>
-            <div id="objectVertices">amount of vertices: 1</div>
-            <div id="objectColor">color: #000000</div>
-            <input type="number" placeholder="X" id="objectX" onkeydown="updatePos()" onkeyup="updatePos()"><br>
-            <input type="number" placeholder="Y" id="objectY" onkeydown="updatePos()" onkeyup="updatePos()"><br>
-            <input type="number" placeholder="Z" id="objectZ" onkeydown="updatePos()" onkeyup="updatePos()"><br>
-            <button onclick="deleteObject()">delete object</button>
-            <div id="camPos">camera position: 0, 0, 1</div>
-        </div>
 
-        <div id="buildOut"></div>
-        
-        <script src="window.js"></script>
-        <script src="save.js"></script>
-        <script src="renderUI.js"></script>
-        <script src="objects.js"></script>
-        <script src="defaultObjects.js"></script>
-        <script src="renderMeshes.js"></script>
-        <script src="camera.js"></script>
-        <script src="run.js"></script>
-        <script src="fps.js"></script>
-        <script src="build.js"></script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>polydural engine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <canvas width="1000" height="1000" id="gameWindow"></canvas>
+    <div id="menuBar">
+        <div id="fpsLabel">fps: 0</div>
+        <button id="sceneView" onclick="sceneView()">scene editor</button>
+        <button id="gameView" onclick="gameView()">game window</button>
+        <button id="codeView" onclick="codeView()">code editor</button>
+        <button id="build" onclick="startBuild()">build game</button>
+        <button id="save" onclick="saveScene()">save</button>
+        <button id="load" onclick="loadScene()">load</button>
+    </div>
+    <div id="objectHolder">
+        <button id="addObject" onclick="addObject('cube')">add cube</button>
+        <button id="addObject2" onclick="addObject('triangle')">add triangle</button>
+        <div id="amountOfObjects">amount of objects: 0</div>
+        <button class="object" id="camera" onclick="readCameraData('camera(1)', 'camera1')">camera (1)</button>
+    </div>
+    <div id="objectInspector">
+        <div id="objectName">name: camera</div>
+        <div id="objectId">camera: 1</div>
+        <div id="objectVertices">amount of vertices: 1</div>
+        <div id="objectColor">color: #000000</div>
+        <input type="number" placeholder="X" id="objectX" onkeydown="updatePos()" onkeyup="updatePos()"><br>
+        <input type="number" placeholder="Y" id="objectY" onkeydown="updatePos()" onkeyup="updatePos()"><br>
+        <input type="number" placeholder="Z" id="objectZ" onkeydown="updatePos()" onkeyup="updatePos()"><br>
+        <button onclick="deleteObject()">delete object</button>
+        <div id="camPos">camera position: 0, 0, 1</div>
+    </div>
+
+    <div id="buildOut"></div>
+
+    <script src="window.js"></script>
+    <script src="save.js"></script>
+    <script src="renderUI.js"></script>
+    <script src="objects.js"></script>
+    <script src="defaultObjects.js"></script>
+    <script src="renderMeshes.js"></script>
+    <script src="camera.js"></script>
+    <script src="run.js"></script>
+    <script src="fps.js"></script>
+    <script src="build.js"></script>
+</body>
+
 </html>
