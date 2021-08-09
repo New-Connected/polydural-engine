@@ -11,11 +11,23 @@ nodes = [
             ["rotation", [400, 500]]
         ],
         [100, 100]
+    ],
+    ["update", [
+            ["position", [1000, 100]],
+            ["size", [1000, 300]],
+            ["rotation", [1000, 500]]
+        ],
+        [700, 100]
     ]
 ]
 
 nodeProperties = [
     ["start", [
+        ["position", [195, 47], "out"],
+        ["size", [195, 77], "out"],
+        ["rotation", [195, 107], "out"]
+    ]],
+    ["update", [
         ["position", [195, 47], "out"],
         ["size", [195, 77], "out"],
         ["rotation", [195, 107], "out"]
@@ -45,9 +57,10 @@ canvas.onmousemove = function(e) {
 function moveNode() {
     if (mouseIsDown == true) {
         for (node = 0; node < nodes.length; node++) {
-            if (mousePos[0] + 300 >= nodes[node][2][0] && mousePos[0] <= nodes[node][2][0] + 500) {
-                nodes[node][2][0] = mousePos[0] * 1.2
-                console.log("moved")
+            if (mousePos[0] >= nodes[node][2][0] && mousePos[0] <= nodes[node][2][0] + 200 && mousePos[1] >= nodes[node][2][1] && mousePos[1] <= nodes[node][2][1] + 200) {
+                nodes[node][2][0] = mousePos[0] - 100
+                nodes[node][2][1] = mousePos[1] - 100
+                break;
             }
         }
     }
@@ -111,10 +124,39 @@ function drawNode(node, x, y) {
         ctx.fillText("size:", x, y + 87)
         ctx.fillText("rotation:", x, y + 117)
     }
+    if (node == "update") {
+        ctx.fillStyle = "#aaaaaa"
+        ctx.beginPath()
+        ctx.rect(x, y, 200, 150)
+        ctx.fill()
+        ctx.fillStyle = "#555555"
+        ctx.beginPath()
+        ctx.rect(x, y, 200, 30)
+        ctx.fill()
+        ctx.fillStyle = "#555555"
+        ctx.beginPath()
+        ctx.rect(x + 195, y + 47, 10, 10)
+        ctx.fill()
+        ctx.fillStyle = "#555555"
+        ctx.beginPath()
+        ctx.rect(x + 195, y + 77, 10, 10)
+        ctx.fill()
+        ctx.fillStyle = "#555555"
+        ctx.beginPath()
+        ctx.rect(x + 195, y + 107, 10, 10)
+        ctx.fill()
+        ctx.fillStyle = "#ffffff"
+        ctx.font = "30px Arial"
+        ctx.fillText("on update", x, y + 27)
+        ctx.fillStyle = "#000000"
+        ctx.fillText("position:", x, y + 57)
+        ctx.fillText("size:", x, y + 87)
+        ctx.fillText("rotation:", x, y + 117)
+    }
     if (node == "position") {
         ctx.fillStyle = "#aaaaaa"
         ctx.beginPath()
-        ctx.rect(x, y, 200, 100)
+        ctx.rect(x, y, 200, 150)
         ctx.fill()
         ctx.fillStyle = "#555555"
         ctx.beginPath()
@@ -128,12 +170,14 @@ function drawNode(node, x, y) {
         ctx.font = "30px Arial"
         ctx.fillText("position", x, y + 27)
         ctx.fillStyle = "#000000"
-        ctx.fillText("0, 0, 0", x + 25, y + 57)
+        ctx.fillText("x", x + 25, y + 57)
+        ctx.fillText("y", x + 25, y + 87)
+        ctx.fillText("z", x + 25, y + 117)
     }
     if (node == "size") {
         ctx.fillStyle = "#aaaaaa"
         ctx.beginPath()
-        ctx.rect(x, y, 200, 100)
+        ctx.rect(x, y, 200, 150)
         ctx.fill()
         ctx.fillStyle = "#555555"
         ctx.beginPath()
@@ -147,12 +191,14 @@ function drawNode(node, x, y) {
         ctx.font = "30px Arial"
         ctx.fillText("size", x, y + 27)
         ctx.fillStyle = "#000000"
-        ctx.fillText("1, 1, 1", x + 25, y + 57)
+        ctx.fillText("x", x + 25, y + 57)
+        ctx.fillText("y", x + 25, y + 87)
+        ctx.fillText("z", x + 25, y + 117)
     }
     if (node == "rotation") {
         ctx.fillStyle = "#aaaaaa"
         ctx.beginPath()
-        ctx.rect(x, y, 200, 100)
+        ctx.rect(x, y, 200, 150)
         ctx.fill()
         ctx.fillStyle = "#555555"
         ctx.beginPath()
@@ -166,7 +212,9 @@ function drawNode(node, x, y) {
         ctx.font = "30px Arial"
         ctx.fillText("rotation", x, y + 27)
         ctx.fillStyle = "#000000"
-        ctx.fillText("0, 0, 0", x + 25, y + 57)
+        ctx.fillText("x", x + 25, y + 57)
+        ctx.fillText("y", x + 25, y + 87)
+        ctx.fillText("z", x + 25, y + 117)
     }
 }
 

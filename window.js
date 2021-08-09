@@ -17,14 +17,23 @@ function getCamZ() {
 
 function sceneView() {
     windowOpen = "scene"
+    document.getElementById("gameWindow").style.width = "50%"
+    document.getElementById("gameWindow").style.height = "69%"
+    document.getElementById("gameWindow").style.left = "25%"
 }
 
 function xrayView() {
     windowOpen = "xray"
+    document.getElementById("gameWindow").style.width = "50%"
+    document.getElementById("gameWindow").style.height = "69%"
+    document.getElementById("gameWindow").style.left = "25%"
 }
 
 function gameView() {
     windowOpen = "game"
+    document.getElementById("gameWindow").style.width = "50%"
+    document.getElementById("gameWindow").style.height = "69%"
+    document.getElementById("gameWindow").style.left = "25%"
     camX = getCamX()
     camY = getCamY()
     camZ = getCamZ()
@@ -32,4 +41,7 @@ function gameView() {
 
 function codeView() {
     windowOpen = "code"
+    document.getElementById("gameWindow").style.width = "100%"
+    document.getElementById("gameWindow").style.height = "100%"
+    document.getElementById("gameWindow").style.left = "0%"
 }
