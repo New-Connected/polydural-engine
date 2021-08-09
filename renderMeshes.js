@@ -203,7 +203,8 @@ function drawMeshes() {
         ctx.rect(0, 0, canvas.width, canvas.height)
         ctx.fill()
         for (node = 0; node < nodes.length; node++) {
-            loopOverNodes(nodes[node][0], nodes[node][2][0], nodes[node][2][1])
+            loopOverNodes(nodes[node][0], nodes[node][2][0], nodes[node][2][1], nodes[node][1])
         }
+        moveNode()
     }
 }

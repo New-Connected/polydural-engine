@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    <canvas width="1000" height="1000" id="gameWindow"></canvas>
     <div id="menuBar">
         <div id="fpsLabel">fps: 0</div>
         <button id="sceneView" onclick="sceneView()">scene editor</button>
@@ -50,6 +49,13 @@
 
     <div id="buildOut"></div>
 
+    <script>
+        canvas = document.createElement("canvas");
+        document.body.appendChild(canvas);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.id = "gameWindow";
+    </script>
     <script src="nodes.js"></script>
     <script src="window.js"></script>
     <script src="save.js"></script>
