@@ -2,7 +2,13 @@ canvas = document.getElementById("gameWindow")
 ctx = canvas.getContext("2d")
 
 nodes = [
-    ["start", ["position", "size", "rotation"]]
+    ["start", [
+            ["position", [300, 100]],
+            ["size", [300, 300]],
+            ["rotation", [300, 500]]
+        ],
+        [100, 100]
+    ]
 ]
 
 nodeProperties = [
@@ -13,10 +19,23 @@ nodeProperties = [
     ]],
     ["position", [
         ["position", [-5, 47], "in"]
+    ]],
+    ["size", [
+        ["size", [-5, 47], "in"]
+    ]],
+    ["rotation", [
+        ["rotation", [-5, 47], "in"]
     ]]
 ]
 
-function drawNode(node, x, y, subNodes) {
+function loopOverNodes(node, x, y, subNodes) {
+    drawNode(node, x, y)
+    for (subNode = 0; subNode < subNodes.length; subNode++) {
+
+    }
+}
+
+function drawNode(node, x, y) {
     if (node == "start") {
         ctx.fillStyle = "#aaaaaa"
         ctx.beginPath()
