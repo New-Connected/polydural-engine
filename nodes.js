@@ -21,6 +21,10 @@ nodes = [
     ]
 ]
 
+nodeObjects = [
+    [0, nodes]
+]
+
 nodeProperties = [
     ["start", [
         ["position", [195, 47], "out"],
@@ -51,15 +55,14 @@ canvas.onmouseup = function(e) {
 }
 canvas.onmousemove = function(e) {
     mousePos = [e.x, e.y]
-    console.log(mousePos)
 }
 
 function moveNode() {
     if (mouseIsDown == true) {
-        for (node = 0; node < nodes.length; node++) {
-            if (mousePos[0] >= nodes[node][2][0] && mousePos[0] <= nodes[node][2][0] + 200 && mousePos[1] >= nodes[node][2][1] && mousePos[1] <= nodes[node][2][1] + 200) {
-                nodes[node][2][0] = mousePos[0] - 100
-                nodes[node][2][1] = mousePos[1] - 100
+        for (node = 0; node < nodeObjects[0][1].length; node++) {
+            if (mousePos[0] >= nodeObjects[0][1][node][2][0] && mousePos[0] <= nodeObjects[0][1][node][2][0] + 200 && mousePos[1] >= nodeObjects[0][1][node][2][1] && mousePos[1] <= nodeObjects[0][1][node][2][1] + 200) {
+                nodeObjects[0][1][node][2][0] = mousePos[0] - 100
+                nodeObjects[0][1][node][2][1] = mousePos[1] - 100
                 break;
             }
         }
