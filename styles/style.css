@@ -7,15 +7,6 @@
     background-color: white;
 }
 
-#menuBar {
-    width: 100%;
-    height: 5%;
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    background-color: rgb(121, 121, 121);
-}
-
 #objectHolder {
     width: 24%;
     height: 69%;
@@ -35,53 +26,9 @@
     background-color: rgb(121, 121, 121);
 }
 
-#fpsLabel {
-    position: absolute;
-    top: 0%;
-    left: 1%;
-    font-size: 2vw;
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-}
-
 body {
     margin: 0;
     background-color: rgb(180, 180, 180);
-}
-
-#sceneView {
-    position: absolute;
-    left: 25%;
-    width: 10%;
-    height: 100%;
-}
-
-#xrayView {
-    position: absolute;
-    left: 35%;
-    width: 10%;
-    height: 100%;
-}
-
-#gameView {
-    position: absolute;
-    left: 45%;
-    width: 10%;
-    height: 100%;
-}
-
-#codeView {
-    position: absolute;
-    left: 55%;
-    width: 10%;
-    height: 100%;
-}
-
-#build {
-    position: absolute;
-    left: 90%;
-    width: 10%;
-    height: 100%;
 }
 
 button {
@@ -97,11 +44,6 @@ button {
 button:hover {
     color: #FFFFFF;
     background: #878787;
-}
-
-#buildOut {
-    position: absolute;
-    top: 75%;
 }
 
 #addObject {
@@ -130,20 +72,6 @@ button:hover {
 .object {
     position: absolute;
     left: 1%;
-}
-
-#load {
-    position: absolute;
-    left: 85%;
-    width: 5%;
-    height: 100%;
-}
-
-#save {
-    position: absolute;
-    left: 80%;
-    width: 5%;
-    height: 100%;
 }
 
 #camera {
