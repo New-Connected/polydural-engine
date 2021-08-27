@@ -6,6 +6,10 @@ compiledCamX = 0
 compiledCamY = 0
 compiledCamZ = 1
 
+devCamX = 0
+devCamY = 0
+devCamZ = 0
+
 wClicked = 0
 aClicked = 0
 sClicked = 0

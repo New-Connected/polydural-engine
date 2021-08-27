@@ -7,6 +7,8 @@ function clearWindow() {
 
 function gameUpdate() {
     clearWindow()
+    drawClouds()
+    drawSky()
     drawMeshes()
     updateFps()
     checkMove()

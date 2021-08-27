@@ -20,6 +20,9 @@ function sceneView() {
     document.getElementById("gameWindow").style.width = "50%"
     document.getElementById("gameWindow").style.height = "69%"
     document.getElementById("gameWindow").style.left = "25%"
+    camX = devCamX
+    camY = devCamY
+    camY = devCamY
 }
 
 function xrayView() {
@@ -34,6 +37,9 @@ function gameView() {
     document.getElementById("gameWindow").style.width = "50%"
     document.getElementById("gameWindow").style.height = "69%"
     document.getElementById("gameWindow").style.left = "25%"
+    devCamX = camX
+    devCamY = camY
+    devCamZ = camZ
     camX = getCamX()
     camY = getCamY()
     camZ = getCamZ()
