@@ -3,12 +3,12 @@ ctx = canvas.getContext("2d")
 
 function clearWindow() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawSky()
+    drawClouds()
 }
 
 function gameUpdate() {
     clearWindow()
-    drawClouds()
-    drawSky()
     drawMeshes()
     updateFps()
     checkMove()
