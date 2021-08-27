@@ -7,9 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>polydural engine</title>
     <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/menuBar.css">
 </head>
 
 <body>
+    <div id="menuBar">
+        <div id="fpsLabel">fps: 0</div>
+        <button id="sceneView" onclick="sceneView()">scene editor</button>
+        <button id="xrayView" onclick="xrayView()">xray editor</button>
+        <button id="gameView" onclick="gameView()">game window</button>
+        <button id="codeView" onclick="codeView()">code editor</button>
+        <button id="build" onclick="startBuild()">build game</button>
+        <button id="save" onclick="saveScene()">save</button>
+        <button id="load" onclick="loadScene()">load</button>
+    </div>
     <a href="3dEngine.html">create 3D project</a><br>
     <a href="2dEngine.html">create 2D project</a>
 </body>
