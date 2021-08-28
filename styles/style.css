@@ -41,7 +41,7 @@ button {
     padding: 10px 25px;
     border-radius: 8px;
     border: 0px solid #333333;
-    background: #333333;
+    background: rgba(95, 95, 95, 0.452);
 }
 
 button:hover {
