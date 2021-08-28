@@ -6,7 +6,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "cube(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0)
+        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF")
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -41,6 +41,10 @@ function addObject(objectType) {
     }
 }
 
+function updateColor() {
+    compiledMeshes[objectSelected[0]][14] = document.getElementById("objColor").value
+}
+
 function readObjectData(object, buttonName1) {
     console.log(compiledMeshes)
     for (x = 0; x < compiledMeshes.length; x++) {
@@ -54,10 +58,11 @@ function readObjectData(object, buttonName1) {
             document.getElementById("sizeX").value = compiledMeshes[x][8]
             document.getElementById("sizeY").value = compiledMeshes[x][9]
             document.getElementById("sizeZ").value = compiledMeshes[x][10]
-            document.getElementById("rotationX").value = compiledMeshes[x][11]
-            document.getElementById("rotationY").value = compiledMeshes[x][12]
-            document.getElementById("rotationZ").value = compiledMeshes[x][13]
+            document.getElementById("rotationX").value = compiledMeshes[x][11] * 14.2857143
+            document.getElementById("rotationY").value = compiledMeshes[x][12] * 14.2857143
+            document.getElementById("rotationZ").value = compiledMeshes[x][13] * 14.2857143
             document.getElementById("deleteObj").style.display = "block"
+            document.getElementById("objColor").value = compiledMeshes[x][14]
         }
     }
 }
@@ -72,9 +77,9 @@ function readCameraData(object, buttonName1) {
     document.getElementById("sizeX").value = compiledMeshes[0][8]
     document.getElementById("sizeY").value = compiledMeshes[0][9]
     document.getElementById("sizeZ").value = compiledMeshes[0][10]
-    document.getElementById("rotationX").value = compiledMeshes[0][11]
-    document.getElementById("rotationY").value = compiledMeshes[0][12]
-    document.getElementById("rotationZ").value = compiledMeshes[0][13]
+    document.getElementById("rotationX").value = compiledMeshes[0][11] * 14.2857143
+    document.getElementById("rotationY").value = compiledMeshes[0][12] * 14.2857143
+    document.getElementById("rotationZ").value = compiledMeshes[0][13] * 14.2857143
     document.getElementById("deleteObj").style.display = "none"
 }
 
@@ -110,13 +115,13 @@ function updateSize() {
 
 function updateRotation() {
     if (objectSelected[0] != -1) {
-        compiledMeshes[objectSelected[0]][11] = Number(document.getElementById("rotationX").value)
-        compiledMeshes[objectSelected[0]][12] = Number(document.getElementById("rotationY").value)
-        compiledMeshes[objectSelected[0]][13] = Number(document.getElementById("rotationZ").value)
+        compiledMeshes[objectSelected[0]][11] = Number(document.getElementById("rotationX").value) / 14.2857143
+        compiledMeshes[objectSelected[0]][12] = Number(document.getElementById("rotationY").value) / 14.2857143
+        compiledMeshes[objectSelected[0]][13] = Number(document.getElementById("rotationZ").value) / 14.2857143
     } else {
-        compiledMeshes[0][11] = Number(document.getElementById("rotationX").value)
-        compiledMeshes[0][12] = Number(document.getElementById("rotationY").value)
-        compiledMeshes[0][13] = Number(document.getElementById("rotationZ").value)
+        compiledMeshes[0][11] = Number(document.getElementById("rotationX").value) / 14.2857143
+        compiledMeshes[0][12] = Number(document.getElementById("rotationY").value) / 14.2857143
+        compiledMeshes[0][13] = Number(document.getElementById("rotationZ").value) / 14.2857143
     }
 }
 

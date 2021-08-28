@@ -3,7 +3,7 @@ ctx = canvas.getContext("2d")
 
 function clearWindow() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawSky()
+    drawSky(camX, camY, camZ)
     drawClouds()
 }
 

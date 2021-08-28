@@ -34,9 +34,9 @@ function xrayView() {
 
 function gameView() {
     windowOpen = "game"
-    document.getElementById("gameWindow").style.width = "50%"
-    document.getElementById("gameWindow").style.height = "69%"
-    document.getElementById("gameWindow").style.left = "25%"
+    document.getElementById("gameWindow").style.width = "100%"
+    document.getElementById("gameWindow").style.height = "100%"
+    document.getElementById("gameWindow").style.left = "0%"
     devCamX = camX
     devCamY = camY
     devCamZ = camZ

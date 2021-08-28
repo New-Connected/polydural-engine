@@ -98,6 +98,12 @@ function getDrawingOrder(object) {
     return faceOrderZ2
 }
 
+function getObjectOrder(objects) {
+    for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
+        let calculatedVertices1 = compiledMeshes[meshCalc]
+    }
+}
+
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
         //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.01
@@ -125,14 +131,15 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
     return calculatedMatrix
 }
 
-function createMesh(matrix, x, y, z, name, buttonName, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
+function createMesh(matrix, x, y, z, name, buttonName, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ])
+    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color])
     console.log(compiledMeshes)
 }
 
 function drawMeshes() {
     if (windowOpen == "scene") {
+        getObjectOrder(compiledMeshes)
         for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
             let calculatedVertices1 = compiledMeshes[meshCalc]
             let calculatedVertices = calculateVertices(calculatedVertices1[0],
@@ -151,11 +158,7 @@ function drawMeshes() {
             calculatedVertices = getDrawingOrder(calculatedVertices)
             for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
                 ctx.beginPath()
-                if (mesh == calculatedVertices.length - 1) {
-                    ctx.fillStyle = colors[1]
-                } else {
-                    ctx.fillStyle = colors[0]
-                }
+                ctx.fillStyle = calculatedVertices1[14]
                 for (face = 0; face < calculatedVertices[mesh].length; face++) {
                     if (face == 0) {
                         ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
@@ -167,6 +170,22 @@ function drawMeshes() {
                 }
                 ctx.closePath()
                 ctx.fill()
+
+                if (mesh == calculatedVertices.length - 1) {
+                    ctx.beginPath()
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.3)"
+                    for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                        if (face == 0) {
+                            ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
+                        } else {
+                            if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
+                                ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                            }
+                        }
+                    }
+                    ctx.closePath()
+                    ctx.fill()
+                }
             }
         }
     } else if (windowOpen == "xray") {
@@ -218,17 +237,28 @@ function drawMeshes() {
             calculatedVertices = getDrawingOrder(calculatedVertices)
             for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
                 ctx.beginPath()
-                if (mesh == calculatedVertices.length - 1) {
-                    ctx.fillStyle = colors[1]
-                } else {
-                    ctx.fillStyle = colors[0]
-                }
+                ctx.fillStyle = calculatedVertices1[14]
                 for (face = 0; face < calculatedVertices[mesh].length; face++) {
                     if (face == 0) {
                         ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
                     } else {
                         if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
                             ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                        }
+                    }
+                }
+                ctx.closePath()
+                ctx.fill()
+                ctx.beginPath()
+                if (mesh == calculatedVertices.length - 1) {
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
+                    for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                        if (face == 0) {
+                            ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
+                        } else {
+                            if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
+                                ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                            }
                         }
                     }
                 }

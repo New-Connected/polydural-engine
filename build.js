@@ -117,7 +117,7 @@ document.addEventListener('keyup', function(event) {
 })
 
 function drawUI() {
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = "#FFFFFF";
     ctx.font = "20px Arial";     
     ctx.fillText("made with polydural", 0, 30);
 }
@@ -282,58 +282,144 @@ function rotate(point, rotation) {
     point.y = temp2;
 }
 
+function getDrawingOrder(object) {
+    faceOrderX = []
+    faceOrderZ = []
+    faceOrderZ2 = []
+    for (mesh = 0; mesh < object.length; mesh++) {
+        faceZIndex = 0
+        for (face = 0; face < object[mesh].length; face++) {
+            faceZIndex = faceZIndex + object[mesh][face]["z"]
+        }
+        faceOrderX.push([Math.abs(faceZIndex), object[mesh]])
+    }
+    faceOrderZ = faceOrderX.sort()
+    for (face = 0; face < faceOrderZ.length; face++) {
+        faceOrderZ2.push(faceOrderZ[face][1])
+    }
+    return faceOrderZ2
+}
+
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
     for (face = 0; face < calculatedMatrix.length; face++) {
+        polygonIsInvisible = true
         calculatedMatrix[face].forEach(vert => {
-            resize(vert, sizeX, sizeY, sizeZ)
-            rotate(vert, { x: rotateX / 10, y: rotateY / 10, z: rotateZ / 10 })
-            calculateDistance(vert, x, y, z, camX, camY, camZ)
-            zoom(vert, 8)
-            positionMesh(vert)
+            if (0 - vert.z < camZ) {
+                polygonIsInvisible = false
+            }
+        })
+        calculatedMatrix[face].forEach(vert => {
+            if (polygonIsInvisible == false) {
+                resize(vert, sizeX, sizeY, sizeZ)
+                rotate(vert, { x: rotateX / 4, y: rotateY / 4, z: rotateZ / 4 })
+                calculateDistance(vert, x, y, z, camX, camY, camZ)
+                zoom(vert, 8)
+                positionMesh(vert)
+            } else {
+                vert.x = -1
+                vert.y = -1
+            }
         })
     }
     return calculatedMatrix
 }
 
-function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
+function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ])
+    compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color])
 }
 
 function drawMeshes() {
     for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
-        if (compiledMeshes[meshCalc][3] - 50 < camZ) {
-            let calculatedVertices1 = compiledMeshes[meshCalc]
-            let calculatedVertices = calculateVertices(calculatedVertices1[0], 
-                                                    calculatedVertices1[1], 
-                                                    calculatedVertices1[2], 
-                                                    calculatedVertices1[3],
-                                                    camX, camY, camZ,
-                                                    calculatedVertices1[4],
-                                                    calculatedVertices1[5],
-                                                    calculatedVertices1[6],
-                                                    calculatedVertices1[7],
-                                                    calculatedVertices1[8],
-                                                    calculatedVertices1[9])
-            ctx.strokeStyle = '#000000'
-            ctx.lineWidth = 5;
-            for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
-                ctx.fillStyle = colors[mesh]
-                ctx.beginPath()
-                for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                    if (face == 0) {
-                        ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                    } else {
+        let calculatedVertices1 = compiledMeshes[meshCalc]
+        let calculatedVertices = calculateVertices(calculatedVertices1[0], 
+                                                calculatedVertices1[1], 
+                                                calculatedVertices1[2], 
+                                                calculatedVertices1[3],
+                                                camX, camY, camZ,
+                                                calculatedVertices1[4],
+                                                calculatedVertices1[5],
+                                                calculatedVertices1[6],
+                                                calculatedVertices1[7],
+                                                calculatedVertices1[8],
+                                                calculatedVertices1[9])
+        ctx.strokeStyle = '#000000'
+        ctx.lineWidth = 5;
+        calculatedVertices = getDrawingOrder(calculatedVertices)
+        for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+            ctx.beginPath()
+            ctx.fillStyle = calculatedVertices1[10]
+            for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                if (face == 0) {
+                    ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                } else {
+                    if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
                         ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
                     }
                 }
+            }
+            ctx.closePath()
+            //ctx.stroke()
+            ctx.fill()
+
+            if (mesh == calculatedVertices.length - 1) {
+                ctx.beginPath()
+                ctx.fillStyle = "rgba(255, 255, 255, 0.3)"
+                for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                    if (face == 0) {
+                        ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
+                    } else {
+                        if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
+                            ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                        }
+                    }
+                }
                 ctx.closePath()
-                //ctx.stroke()
                 ctx.fill()
             }
         }
     }
+}
+
+timePassedClouds = 0;
+cloudPixelSize = 63;
+
+cloudGradient = ["rgba(255, 255, 255, 0.1)", "rgba(255, 255, 255, 0.2)", "rgba(255, 255, 255, 0.3)",
+    "rgba(255, 255, 255, 0.4)", "rgba(255, 255, 255, 0.5)", "rgba(255, 255, 255, 0.6)",
+    "rgba(255, 255, 255, 0.7)", "rgba(255, 255, 255, 0.8)", "rgba(255, 255, 255, 0.9)"
+];
+
+function noise1D(x, time, amplitude, size) {
+    return ((Math.sin((x + time) / size) * 20) + (Math.sin((x + time) / size) * amplitude)) / 2;
+}
+
+function noise2D(x, y, time) {
+    xOut = (noise1D(x, time, 10, 3) + noise1D(x + 100, time, 20, 4) + noise1D(x + 200, time, 40, 5)) / 3;
+    yOut = (noise1D(y, 0, 50, 3) + noise1D(y + 100, 0, 100, 20)) / 2;
+    return (xOut + yOut) / 2;
+}
+
+function drawClouds() {
+    timePassedClouds = timePassedClouds - 0.01;
+    for (x = 0; x < cloudPixelSize; x++) {
+        for (y = 0; y < cloudPixelSize / 2; y++) {
+            if (noise2D(x, y, timePassedClouds) > 0) {
+                ctx.fillStyle = "rgba(255, 255, 255, " + noise2D(x, y, timePassedClouds) / 50 + ")";
+                ctx.fillRect(canvas.width / cloudPixelSize * x, (canvas.height / cloudPixelSize * y) / 2, canvas.width / cloudPixelSize, (canvas.height / cloudPixelSize) / 2);
+            }
+        }
+    }
+}
+
+function drawSky(x, y, z) {
+    colorsSky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    colorsSky.addColorStop(0, "#0000AA");
+    colorsSky.addColorStop(0.5, "#FFFFFF");
+    colorsSky.addColorStop(0.6, "#5555FF");
+    colorsSky.addColorStop(1, "#000022");
+    ctx.fillStyle = colorsSky;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 `
 }
@@ -341,7 +427,7 @@ function drawMeshes() {
 function createObjects() {
     objectsString = ""
     for (x = 1; x < compiledMeshes.length; x++) {
-        objectsString = objectsString + "createMesh(" + compiledMeshes[x][7] + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ", " + compiledMeshes[x][8] + ", " + compiledMeshes[x][9] + ", " + compiledMeshes[x][10] + ", " + compiledMeshes[x][11] + ", " + compiledMeshes[x][12] + ", " + compiledMeshes[x][13] + ")\n"
+        objectsString = objectsString + "createMesh(" + compiledMeshes[x][7] + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ", " + compiledMeshes[x][8] + ", " + compiledMeshes[x][9] + ", " + compiledMeshes[x][10] + ", " + compiledMeshes[x][11] + ", " + compiledMeshes[x][12] + ", " + compiledMeshes[x][13] + ', "' + compiledMeshes[x][14] + '")\n'
     }
     return objectsString
 }
@@ -349,6 +435,8 @@ function createObjects() {
 javascriptOut2 = `
 function clearWindow() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawSky(camX, camY, camZ);
+    drawClouds();
 }
 
 function gameUpdate() {
