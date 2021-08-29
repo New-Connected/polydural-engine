@@ -23,7 +23,14 @@ function noise2D(x, y, time) {
 function drawClouds() {
     timePassedClouds = timePassedClouds - 0.01
     if (windowOpen == "game") {
-        ctx.drawImage(clouds, 0, 0)
+        for (x = 0; x < cloudPixelSize; x++) {
+            for (y = 0; y < cloudPixelSize / 2; y++) {
+                if (noise2D(x, y, timePassedClouds) > 0) {
+                    ctx.fillStyle = "rgba(255, 255, 255, " + noise2D(x, y, timePassedClouds) / 50 + ")"
+                    ctx.fillRect(canvas.width / cloudPixelSize * x, (canvas.height / cloudPixelSize * y) / 2, canvas.width / cloudPixelSize, (canvas.height / cloudPixelSize) / 2);
+                }
+            }
+        }
     }
 }
 

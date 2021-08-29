@@ -43,6 +43,7 @@ function gameView() {
     camX = getCamX()
     camY = getCamY()
     camZ = getCamZ()
+    timePassedClouds = 0
 }
 
 function codeView() {
