@@ -24,6 +24,7 @@
     <div id="objectHolder">
         <button id="addObject" onclick="addObject('cube')">add cube</button>
         <button id="addObject2" onclick="addObject('triangle')">add triangle</button>
+        <input id="upload" type=file accept="obj" name="files[]" size=30>
         <div id="amountOfObjects">amount of objects: 0</div>
         <button class="object" id="camera" onclick="readCameraData('camera(1)', 'camera1')">camera (1)</button>
     </div>
@@ -59,6 +60,7 @@
         canvas.height = window.innerHeight;
         canvas.id = "gameWindow";
     </script>
+    <script src="javascript/objToVertices.js"></script>
     <script src="javascript/drawSkyBox.js"></script>
     <script src="javascript/save.js"></script>
     <script src="javascript/nodes.js"></script>

@@ -122,98 +122,6 @@ function drawUI() {
     ctx.fillText("made with polydural", 0, 30);
 }
 
-squareMatrix = [
-    [
-        [-50, -50, 0],
-        [50, -50, 0],
-        [50, 50, 0],
-        [-50, 50, 0]
-    ]
-]
-
-cubeMatrix = [
-    [
-        [-50, -50, 0],
-        [50, -50, 0],
-        [50, 50, 0],
-        [-50, 50, 0]
-    ],
-    [
-        [-50, -50, -50],
-        [50, -50, -50],
-        [50, 50, -50],
-        [-50, 50, -50]
-    ],
-    [
-        [-50, -50, -50],
-        [-50, -50, 0],
-        [-50, 50, 0],
-        [-50, 50, -50]
-    ],
-    [
-        [-50, -50, 0],
-        [50, -50, 0],
-        [50, -50, -50],
-        [-50, -50, -50]
-    ],
-    [
-        [50, -50, 0],
-        [50, 50, 0],
-        [50, 50, -50],
-        [50, -50, -50]
-    ],
-    [
-        [-50, 50, 0],
-        [50, 50, 0],
-        [50, 50, -50],
-        [-50, 50, -50]
-    ]
-]
-
-triangleMatrix = [
-    [
-        [0, -50, 0],
-        [50, 50, 0],
-        [-50, 50, 0]
-    ],
-    [
-        [0, -50, -50],
-        [50, 50, -50],
-        [-50, 50, -50]
-    ],
-    [
-        [0, -50, -50],
-        [0, -50, 0],
-        [-50, 50, 0],
-        [-50, 50, -50]
-    ],
-    [
-        [0, -50, 0],
-        [50, 50, 0],
-        [50, 50, -50],
-        [0, -50, -50]
-    ],
-    [
-        [-50, 50, 0],
-        [50, 50, 0],
-        [50, 50, -50],
-        [-50, 50, -50]
-    ]
-]
-
-cameraMatrix  = [
-    [
-        [-50, -50, 0],
-        [50, -50, 0],
-        [50, 0, 0],
-        [-90, -50, 0],
-        [-90, 50, 0],
-        [50, 0, 0],
-        [50, 50, 0],
-        [-50, 50, 0]
-    ]
-]
-
 compiledMeshes = []
 
 colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"]
@@ -328,6 +236,7 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
 function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color) {
     const vertices = matrix.map(ToPolygon)
     compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color])
+    console.log(compiledMeshes)
 }
 
 function drawMeshes() {
@@ -427,7 +336,7 @@ function drawSky(x, y, z) {
 function createObjects() {
     objectsString = ""
     for (x = 1; x < compiledMeshes.length; x++) {
-        objectsString = objectsString + "createMesh(" + compiledMeshes[x][7] + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ", " + compiledMeshes[x][8] + ", " + compiledMeshes[x][9] + ", " + compiledMeshes[x][10] + ", " + compiledMeshes[x][11] + ", " + compiledMeshes[x][12] + ", " + compiledMeshes[x][13] + ', "' + compiledMeshes[x][14] + '")\n'
+        objectsString = objectsString + "createMesh(" + JSON.stringify(compiledMeshes[x][15]) + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ", " + compiledMeshes[x][8] + ", " + compiledMeshes[x][9] + ", " + compiledMeshes[x][10] + ", " + compiledMeshes[x][11] + ", " + compiledMeshes[x][12] + ", " + compiledMeshes[x][13] + ', "' + compiledMeshes[x][14] + '")\n'
     }
     return objectsString
 }
