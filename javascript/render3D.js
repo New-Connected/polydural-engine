@@ -106,8 +106,8 @@ function getObjectOrder(objects) {
 
 function getMeshShading(object) {
     for (mesh = 0; mesh < object.length; mesh++) {
-        for (face = 0; face < calculatedVertices[mesh].length; face++) {
-
+        for (face = 0; face < object[mesh].length; face++) {
+            //break
         }
     }
 }
