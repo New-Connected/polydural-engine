@@ -104,6 +104,14 @@ function getObjectOrder(objects) {
     }
 }
 
+function getMeshShading(object) {
+    for (mesh = 0; mesh < object.length; mesh++) {
+        for (face = 0; face < calculatedVertices[mesh].length; face++) {
+
+        }
+    }
+}
+
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
     //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.1
@@ -156,6 +164,7 @@ function drawMeshes() {
             ctx.strokeStyle = '#000000'
             ctx.lineWidth = 5;
             calculatedVertices = getDrawingOrder(calculatedVertices)
+            getMeshShading(compiledMeshes)
             for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
                 ctx.beginPath()
                 ctx.fillStyle = calculatedVertices1[14]
