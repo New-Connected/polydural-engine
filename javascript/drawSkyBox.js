@@ -3,7 +3,7 @@ ctx = canvas.getContext("2d")
 clouds = document.getElementById("cloudsImg")
 
 timePassedClouds = 0
-cloudPixelSize = 63
+cloudPixelSize = 100
 
 cloudGradient = ["rgba(255, 255, 255, 0.1)", "rgba(255, 255, 255, 0.2)", "rgba(255, 255, 255, 0.3)",
     "rgba(255, 255, 255, 0.4)", "rgba(255, 255, 255, 0.5)", "rgba(255, 255, 255, 0.6)",
@@ -11,7 +11,11 @@ cloudGradient = ["rgba(255, 255, 255, 0.1)", "rgba(255, 255, 255, 0.2)", "rgba(2
 ]
 
 function noise1D(x, time, amplitude, size) {
-    return ((Math.sin((x + time) / size) * 20) + (Math.sin((x + time) / size) * amplitude)) / 2
+    layer1 = (Math.sin((x + time) / size) * 20) 
+    layer2 = (Math.sin((x + time + 100) / size) * amplitude)
+    layer3 = (Math.sin((x + time + 200) / size) * amplitude * 2)
+    layer4 = (Math.sin((x + time + 300) / (size / 2)) * amplitude / 2)
+    return (layer1 + layer2 + layer3 + layer4) / 4
 }
 
 function noise2D(x, y, time) {
@@ -27,7 +31,7 @@ function drawClouds() {
             for (y = 0; y < cloudPixelSize / 2; y++) {
                 if (noise2D(x, y, timePassedClouds) > 0) {
                     ctx.fillStyle = "rgba(255, 255, 255, " + noise2D(x, y, timePassedClouds) / 50 + ")"
-                    ctx.fillRect(canvas.width / cloudPixelSize * x, (canvas.height / cloudPixelSize * y) / 2, canvas.width / cloudPixelSize, (canvas.height / cloudPixelSize) / 2);
+                    ctx.fillRect(canvas.width / cloudPixelSize * x, (canvas.height / cloudPixelSize * y), canvas.width / cloudPixelSize, (canvas.height / cloudPixelSize));
                 }
             }
         }

@@ -32,22 +32,22 @@ function checkMove() {
 
 document.addEventListener('keydown', function(event) {
     if (event.keyCode == 87) {
-        wClicked = wClicked + 0.1
+        wClicked = wClicked + 0.1 * (300 / maxFps)
     }
     if (event.keyCode == 83) {
-        sClicked = sClicked + 0.1
+        sClicked = sClicked + 0.1 * (300 / maxFps)
     }
     if (event.keyCode == 65) {
-        aClicked = aClicked + 0.5
+        aClicked = aClicked + 0.5 * (300 / maxFps)
     }
     if (event.keyCode == 68) {
-        dClicked = dClicked + 0.5
+        dClicked = dClicked + 0.5 * (300 / maxFps)
     }
     if (event.keyCode == 69) {
-        eClicked = eClicked + 0.5
+        eClicked = eClicked + 0.5 * (300 / maxFps)
     }
     if (event.keyCode == 81) {
-        qClicked = qClicked + 0.5
+        qClicked = qClicked + 0.5 * (300 / maxFps)
     }
 })
 document.addEventListener('keyup', function(event) {
