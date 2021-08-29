@@ -44,12 +44,17 @@
         <input type="number" placeholder="X" id="rotationX" onkeydown="updateRotation()" onkeyup="updateRotation()" onchange="updateRotation()"><br>
         <input type="number" placeholder="Y" id="rotationY" onkeydown="updateRotation()" onkeyup="updateRotation()" onchange="updateRotation()"><br>
         <input type="number" placeholder="Z" id="rotationZ" onkeydown="updateRotation()" onkeyup="updateRotation()" onchange="updateRotation()"><br>
-        <input type="color" id="objColor" onchange="updateColor()" oninput="updateColor()">
+        <input type="color" id="objColor" onchange="updateColor()" oninput="updateColor()"><br>
+        <input type="checkbox" id="objFalling"> object falling<br>
         <button onclick="deleteObject()" id="deleteObj">delete object</button>
         <div id="camPos">camera position: 0, 0, 1</div>
     </div>
 
     <div id="buildOut"></div>
+
+    <div style="display: none;">
+        <img src="images/clouds.png", id="cloudsImg">
+    </div>
 
     <script>
         canvas = document.createElement("canvas");
