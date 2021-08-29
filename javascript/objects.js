@@ -154,8 +154,19 @@ function reloadObjects() {
             button.onclick = function() {
                 readObjectData(name, buttonName)
             }
-        }
-        if (compiledMeshes[x][7] == "triangleMatrix") {
+        } else if (compiledMeshes[x][7] == "triangleMatrix") {
+            let name = "triangle(" + buttonNum + ")"
+            let buttonName = "object" + buttonNum
+            button = document.createElement("button");
+            objectHolder.appendChild(button);
+            button.innerHTML = "triangle (" + buttonNum + ")"
+            button.id = "object" + buttonNum
+            button.className = "object"
+            button.style.top = (6 * (x) + 4) + "%"
+            button.onclick = function() {
+                readObjectData(name, buttonName)
+            }
+        } else if (compiledMeshes[x][7] == "obj") {
             let name = "triangle(" + buttonNum + ")"
             let buttonName = "object" + buttonNum
             button = document.createElement("button");

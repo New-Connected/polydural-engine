@@ -44,9 +44,32 @@ button {
     background: rgba(95, 95, 95, 0.452);
 }
 
+input {
+    font-family: arial;
+    color: #FFFFFF;
+    font-size: 1vw;
+    border-radius: 4px;
+    border: 0px solid #333333;
+    background: rgba(95, 95, 95, 0.452);
+}
+
 button:hover {
     color: #FFFFFF;
     background: #878787;
+}
+
+input:hover {
+    color: #FFFFFF;
+    background: #878787;
+}
+
+#upload {
+    position: absolute;
+    left: 70%;
+    width: 30%;
+    position: sticky;
+    height: 10%;
+    top: 20%;
 }
 
 #addObject {

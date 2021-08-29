@@ -30,7 +30,6 @@ function compile(data) {
                 faceCount = faceCount + 1
                 if (data[character + faceCount] == "f" || data[character + faceCount] == "" || data[character + faceCount] == undefined || faceCount >= 200) {
                     faceCount = faceCount - 1
-                    console.log(data[character + faceCount][0])
                     break
                 }
             }
@@ -49,7 +48,7 @@ function compile(data) {
     let nameNum = amountOfObjects + 1
     let name = "object(" + nameNum + ")"
     let buttonName = "object" + nameNum
-    createMesh(JSON.parse(JSON.stringify(objectOut)), 0, 0, 0, name, buttonName, "obj1", 1, 1, 1, 0, 0, 0, "#000000", objectOut)
+    createMesh(JSON.parse(JSON.stringify(objectOut)), 0, 0, 0, name, buttonName, "obj", 1, 1, 1, 0, 0, 0, "#000000", objectOut)
     amountOfObjects = amountOfObjects + 1
     document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
     objectHolder = document.getElementById("objectHolder")

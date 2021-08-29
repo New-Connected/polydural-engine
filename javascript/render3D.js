@@ -106,8 +106,8 @@ function getObjectOrder(objects) {
 
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
-        //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.01
-        //compiledMeshes[meshCalc][12] = compiledMeshes[meshCalc][12] + 0.01
+    //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.1
+    //compiledMeshes[meshCalc][12] = compiledMeshes[meshCalc][12] + 0.1
     for (face = 0; face < calculatedMatrix.length; face++) {
         polygonIsInvisible = true
         calculatedMatrix[face].forEach(vert => {
