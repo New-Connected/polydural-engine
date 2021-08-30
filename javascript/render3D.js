@@ -80,14 +80,14 @@ function rotate(point, rotation) {
     point.y = temp2;
 }
 
-function getDrawingOrder(object) {
+function getDrawingOrder(object, meshObj) {
     faceOrderX = []
     faceOrderZ = []
     faceOrderZ2 = []
     for (mesh = 0; mesh < object.length; mesh++) {
         faceZIndex = 0
         for (face = 0; face < object[mesh].length; face++) {
-            faceZIndex = faceZIndex + object[mesh][face]["z"]
+            faceZIndex = faceZIndex + ((object[mesh][face]["z"] + meshObj[3]) - camZ)
         }
         faceOrderX.push([Math.abs(faceZIndex), object[mesh]])
     }
@@ -99,17 +99,13 @@ function getDrawingOrder(object) {
 }
 
 function getObjectOrder(objects) {
-    for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
-        let calculatedVertices1 = compiledMeshes[meshCalc]
+    objectsX = []
+    objectsY = []
+    for (meshX = 0; meshX < objects.length; meshX++) {
+        position = 0
+        position = position + (objects[meshX][1] - camX)
     }
-}
-
-function getMeshShading(object) {
-    for (mesh = 0; mesh < object.length; mesh++) {
-        for (face = 0; face < object[mesh].length; face++) {
-            //break
-        }
-    }
+    return objectsY
 }
 
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
@@ -128,7 +124,7 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
                 resize(vert, sizeX, sizeY, sizeZ)
                 rotate(vert, { x: rotateX / 4, y: rotateY / 4, z: rotateZ / 4 })
                 calculateDistance(vert, x, y, z, camX, camY, camZ)
-                zoom(vert, 8)
+                zoom(vert, 12)
                 positionMesh(vert)
             } else {
                 vert.x = -1
@@ -163,8 +159,7 @@ function drawMeshes() {
                 calculatedVertices1[13])
             ctx.strokeStyle = '#000000'
             ctx.lineWidth = 5;
-            calculatedVertices = getDrawingOrder(calculatedVertices)
-            getMeshShading(compiledMeshes)
+            calculatedVertices = getDrawingOrder(calculatedVertices, compiledMeshes[meshCalc])
             for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
                 ctx.beginPath()
                 ctx.fillStyle = calculatedVertices1[14]
@@ -180,21 +175,23 @@ function drawMeshes() {
                 ctx.closePath()
                 ctx.fill()
 
-                if (mesh == calculatedVertices.length - 1) {
-                    ctx.beginPath()
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.3)"
-                    for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                        if (face == 0) {
-                            ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
-                        } else {
-                            if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
-                                ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                            }
+                ctx.beginPath()
+                if (calculatedVertices[mesh][0].y > 0) {
+                    ctx.fillStyle = "rgba(255, 255, 255," + 100 / calculatedVertices[mesh][0].y + ")"
+                } else {
+                    ctx.fillStyle = "rgba(255, 255, 255," + 100 + ")"
+                }
+                for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                    if (face == 0) {
+                        ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
+                    } else {
+                        if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
+                            ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
                         }
                     }
-                    ctx.closePath()
-                    ctx.fill()
                 }
+                ctx.closePath()
+                ctx.fill()
             }
         }
     } else if (windowOpen == "xray") {
@@ -243,7 +240,7 @@ function drawMeshes() {
                 calculatedVertices1[13])
             ctx.strokeStyle = '#000000'
             ctx.lineWidth = 5;
-            calculatedVertices = getDrawingOrder(calculatedVertices)
+            calculatedVertices = getDrawingOrder(calculatedVertices, compiledMeshes[meshCalc])
             for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
                 ctx.beginPath()
                 ctx.fillStyle = calculatedVertices1[14]
@@ -258,16 +255,19 @@ function drawMeshes() {
                 }
                 ctx.closePath()
                 ctx.fill()
+
                 ctx.beginPath()
-                if (mesh == calculatedVertices.length - 1) {
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.5)"
-                    for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                        if (face == 0) {
-                            ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
-                        } else {
-                            if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
-                                ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                            }
+                if (calculatedVertices[mesh][0].y > 0) {
+                    ctx.fillStyle = "rgba(255, 255, 255," + 100 / calculatedVertices[mesh][0].y + ")"
+                } else {
+                    ctx.fillStyle = "rgba(255, 255, 255," + 100 + ")"
+                }
+                for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                    if (face == 0) {
+                        ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
+                    } else {
+                        if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
+                            ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
                         }
                     }
                 }

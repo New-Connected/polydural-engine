@@ -28,7 +28,7 @@ function compile(data) {
             faceCount = 0
             while (true) {
                 faceCount = faceCount + 1
-                if (data[character + faceCount] == "f" || data[character + faceCount] == "" || data[character + faceCount] == undefined || faceCount >= 200) {
+                if (data[character + faceCount] == "f" || data[character + faceCount] == "" || data[character + faceCount] == undefined || faceCount >= 200 || data[character + faceCount] == "#") {
                     faceCount = faceCount - 1
                     break
                 }
