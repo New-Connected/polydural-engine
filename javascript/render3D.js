@@ -112,7 +112,7 @@ function getObjectOrder(objects) {
 
 function grav(object) {
     timePassedGrav = timePassedGrav + 0.01
-    if (object[16] == true) {
+    if (object[19] == true) {
         object[2] = Math.cos(timePassedGrav) * 100
         object[1] = Math.sin(timePassedGrav) * 100
     }
@@ -147,7 +147,7 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
 
 function createMesh(matrix, x, y, z, name, buttonName, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, falling) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, falling])
+    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, x, y, z, falling])
     console.log(compiledMeshes)
 }
 
