@@ -6,7 +6,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "cube(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", cubeMatrix)
+        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", cubeMatrix, true)
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -23,7 +23,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "triangle(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(triangleMatrix, 0, 0, 0, name, buttonName, "triangleMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", triangleMatrix)
+        createMesh(triangleMatrix, 0, 0, 0, name, buttonName, "triangleMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", triangleMatrix, false)
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")

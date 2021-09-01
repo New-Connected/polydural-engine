@@ -45,10 +45,11 @@ function compile(data) {
             objectOut[x].push(object[objectFaces[x][y] - 1])
         }
     }
+    console.log(JSON.stringify(objectOut))
     let nameNum = amountOfObjects + 1
     let name = "object(" + nameNum + ")"
     let buttonName = "object" + nameNum
-    createMesh(JSON.parse(JSON.stringify(objectOut)), 0, 0, 0, name, buttonName, "obj", 1, 1, 1, 0, 0, 0, "#000000", objectOut)
+    createMesh(JSON.parse(JSON.stringify(objectOut)), 0, 0, 0, name, buttonName, "obj", 1, 1, 1, 0, 0, 0, "#000000", objectOut, false)
     amountOfObjects = amountOfObjects + 1
     document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
     objectHolder = document.getElementById("objectHolder")

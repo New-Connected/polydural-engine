@@ -4,6 +4,8 @@ ctx = canvas.getContext("2d")
 cameraData = [0, 0, 1]
 compiledMeshes = []
 
+timePassedGrav = 0
+
 windowOpen = "scene"
 
 colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"]
@@ -108,6 +110,14 @@ function getObjectOrder(objects) {
     return objectsY
 }
 
+function grav(object) {
+    timePassedGrav = timePassedGrav + 0.01
+    if (object[16] == true) {
+        object[2] = Math.cos(timePassedGrav) * 100
+        object[1] = Math.sin(timePassedGrav) * 100
+    }
+}
+
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
     //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.1
@@ -135,9 +145,9 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
     return calculatedMatrix
 }
 
-function createMesh(matrix, x, y, z, name, buttonName, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2) {
+function createMesh(matrix, x, y, z, name, buttonName, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, falling) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2])
+    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, falling])
     console.log(compiledMeshes)
 }
 
@@ -157,6 +167,7 @@ function drawMeshes() {
                 calculatedVertices1[11],
                 calculatedVertices1[12],
                 calculatedVertices1[13])
+            grav(compiledMeshes[meshCalc])
             ctx.strokeStyle = '#000000'
             ctx.lineWidth = 5;
             calculatedVertices = getDrawingOrder(calculatedVertices, compiledMeshes[meshCalc])
@@ -208,6 +219,7 @@ function drawMeshes() {
                 calculatedVertices1[11],
                 calculatedVertices1[12],
                 calculatedVertices1[13])
+            grav(compiledMeshes[meshCalc])
             ctx.strokeStyle = '#000000'
             ctx.lineWidth = 6;
             for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
@@ -238,6 +250,7 @@ function drawMeshes() {
                 calculatedVertices1[11],
                 calculatedVertices1[12],
                 calculatedVertices1[13])
+            grav(compiledMeshes[meshCalc])
             ctx.strokeStyle = '#000000'
             ctx.lineWidth = 5;
             calculatedVertices = getDrawingOrder(calculatedVertices, compiledMeshes[meshCalc])
