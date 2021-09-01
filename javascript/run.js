@@ -18,5 +18,6 @@ function gameUpdate() {
 }
 
 createMesh(cameraMatrix, compiledCamX, compiledCamY, compiledCamZ, "camera", "camera", "camera", 1, 0.5, 1, 0, 0, 0)
+addObject("cube")
 
 setInterval(gameUpdate, 1000 / maxFps)

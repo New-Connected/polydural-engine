@@ -1,10 +1,10 @@
 camX = 0
 camY = 0
-camZ = 1
+camZ = 400
 
 compiledCamX = 0
 compiledCamY = 0
-compiledCamZ = 1
+compiledCamZ = -400
 
 devCamX = 0
 devCamY = 0

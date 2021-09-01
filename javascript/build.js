@@ -272,21 +272,23 @@ function drawMeshes() {
             //ctx.stroke()
             ctx.fill()
 
-            if (mesh == calculatedVertices.length - 1) {
-                ctx.beginPath()
-                ctx.fillStyle = "rgba(255, 255, 255, 0.3)"
-                for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                    if (face == 0) {
-                        ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
-                    } else {
-                        if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
-                            ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                        }
+            ctx.beginPath()
+            if (calculatedVertices[mesh][0].y > 0) {
+                ctx.fillStyle = "rgba(255, 255, 255," + 100 / calculatedVertices[mesh][0].y + ")"
+            } else {
+                ctx.fillStyle = "rgba(255, 255, 255," + 100 + ")"
+            }
+            for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                if (face == 0) {
+                    ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
+                } else {
+                    if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
+                        ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
                     }
                 }
-                ctx.closePath()
-                ctx.fill()
             }
+            ctx.closePath()
+            ctx.fill()
         }
     }
 }

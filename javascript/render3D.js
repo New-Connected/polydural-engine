@@ -117,18 +117,20 @@ function grav(object) {
             object[2] = object[2] + 1 * timePassedGrav
         }
     } else {
-        object[2] = object[17]
+        if (object[19] == true) {
+            object[2] = object[17]
+        }
     }
 }
 
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
-    //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.1
-    //compiledMeshes[meshCalc][12] = compiledMeshes[meshCalc][12] + 0.1
+        //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.1
+        //compiledMeshes[meshCalc][12] = compiledMeshes[meshCalc][12] + 0.1
     for (face = 0; face < calculatedMatrix.length; face++) {
         polygonIsInvisible = true
         calculatedMatrix[face].forEach(vert => {
-            if (0 - vert.z < camZ) {
+            if (0 - (vert.z + z) < camZ) {
                 polygonIsInvisible = false
             }
         })
