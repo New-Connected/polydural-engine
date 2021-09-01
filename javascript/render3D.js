@@ -4,8 +4,6 @@ ctx = canvas.getContext("2d")
 cameraData = [0, 0, 1]
 compiledMeshes = []
 
-timePassedGrav = 0
-
 windowOpen = "scene"
 
 colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"]
@@ -111,10 +109,8 @@ function getObjectOrder(objects) {
 }
 
 function grav(object) {
-    timePassedGrav = timePassedGrav + 0.01
     if (object[19] == true) {
-        object[2] = Math.cos(timePassedGrav) * 100
-        object[1] = Math.sin(timePassedGrav) * 100
+        object[2] = object[2] + 1
     }
 }
 
@@ -167,7 +163,6 @@ function drawMeshes() {
                 calculatedVertices1[11],
                 calculatedVertices1[12],
                 calculatedVertices1[13])
-            grav(compiledMeshes[meshCalc])
             ctx.strokeStyle = '#000000'
             ctx.lineWidth = 5;
             calculatedVertices = getDrawingOrder(calculatedVertices, compiledMeshes[meshCalc])
@@ -219,7 +214,6 @@ function drawMeshes() {
                 calculatedVertices1[11],
                 calculatedVertices1[12],
                 calculatedVertices1[13])
-            grav(compiledMeshes[meshCalc])
             ctx.strokeStyle = '#000000'
             ctx.lineWidth = 6;
             for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
