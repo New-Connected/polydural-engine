@@ -111,10 +111,10 @@ function getObjectOrder(objects) {
 }
 
 function grav(object) {
-    timePassedGrav = timePassedGrav * 1.1
+    timePassedGrav = timePassedGrav * 1.08
     if (windowOpen == "game") {
         if (object[19] == true) {
-            object[2] = object[2] + 1 * timePassedGrav
+            object[2] = object[17] + 1 * timePassedGrav
         }
     } else {
         if (object[19] == true) {

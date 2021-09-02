@@ -1,10 +1,10 @@
 camX = 0
-camY = 0
-camZ = 400
+camY = 155
+camZ = 668
 
 compiledCamX = 0
-compiledCamY = 0
-compiledCamZ = -400
+compiledCamY = -155
+compiledCamZ = -668
 
 devCamX = 0
 devCamY = 0
