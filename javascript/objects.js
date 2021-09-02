@@ -63,6 +63,11 @@ function readObjectData(object, buttonName1) {
             document.getElementById("rotationZ").value = compiledMeshes[x][13] * 14.2857143
             document.getElementById("deleteObj").style.display = "block"
             document.getElementById("objColor").value = compiledMeshes[x][14]
+            if (compiledMeshes[x][19] == true && compiledMeshes[0][19] != undefined) {
+                document.getElementById("objFalling").checked = true
+            } else {
+                document.getElementById("objFalling").checked = false
+            }
         }
     }
 }
@@ -81,6 +86,11 @@ function readCameraData(object, buttonName1) {
     document.getElementById("rotationY").value = compiledMeshes[0][12] * 14.2857143
     document.getElementById("rotationZ").value = compiledMeshes[0][13] * 14.2857143
     document.getElementById("deleteObj").style.display = "none"
+    if (compiledMeshes[0][19] == true && compiledMeshes[x][19] != undefined) {
+        document.getElementById("objFalling").checked = true
+    } else {
+        document.getElementById("objFalling").checked = false
+    }
 }
 
 function updatePos() {
@@ -88,9 +98,9 @@ function updatePos() {
         compiledMeshes[objectSelected[0]][1] = Number(document.getElementById("objectX").value)
         compiledMeshes[objectSelected[0]][2] = 0 - Number(document.getElementById("objectY").value)
         compiledMeshes[objectSelected[0]][3] = Number(document.getElementById("objectZ").value)
-        compiledMeshes[objectSelected[0]][17] = Number(document.getElementById("objectX").value)
-        compiledMeshes[objectSelected[0]][18] = 0 - Number(document.getElementById("objectY").value)
-        compiledMeshes[objectSelected[0]][19] = Number(document.getElementById("objectZ").value)
+        compiledMeshes[objectSelected[0]][16] = Number(document.getElementById("objectX").value)
+        compiledMeshes[objectSelected[0]][17] = 0 - Number(document.getElementById("objectY").value)
+        compiledMeshes[objectSelected[0]][18] = Number(document.getElementById("objectZ").value)
     } else {
         compiledCamX = Number(document.getElementById("objectX").value)
         compiledCamY = Number(document.getElementById("objectY").value)
@@ -101,9 +111,9 @@ function updatePos() {
         compiledMeshes[0][1] = Number(document.getElementById("objectX").value)
         compiledMeshes[0][2] = Number(document.getElementById("objectY").value)
         compiledMeshes[0][3] = 0 - Number(document.getElementById("objectZ").value)
-        compiledMeshes[0][17] = Number(document.getElementById("objectX").value)
-        compiledMeshes[0][18] = Number(document.getElementById("objectY").value)
-        compiledMeshes[0][19] = 0 - Number(document.getElementById("objectZ").value)
+        compiledMeshes[0][16] = Number(document.getElementById("objectX").value)
+        compiledMeshes[0][17] = Number(document.getElementById("objectY").value)
+        compiledMeshes[0][18] = 0 - Number(document.getElementById("objectZ").value)
     }
 }
 
