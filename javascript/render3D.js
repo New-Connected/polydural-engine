@@ -117,13 +117,9 @@ function grav(object) {
             object[2] = object[2] + 1 * timePassedGrav
         }
     } else {
-<<<<<<< Updated upstream
         if (object[19] == true) {
             object[2] = object[17]
         }
-=======
-        object[2] = object[18]
->>>>>>> Stashed changes
     }
 }
 
