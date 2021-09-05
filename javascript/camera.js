@@ -96,15 +96,5 @@ function lockChangeAlert() {
 function updatePosition(e) {
     camRotationX = camRotationX + e.movementX
     camRotationY = camRotationY + e.movementY
-    /*if (camRotationX < 0) {
-        camRotationX = 360
-    } else if (camRotationX > 360) {
-        camRotationX = 0
-    }
-    if (camRotationY < 0) {
-        camRotationY = 360
-    } else if (camRotationY > 360) {
-        camRotationY = 0
-    }*/
     console.log(camRotationX + " " + camRotationY)
 }

@@ -131,31 +131,8 @@ function grav(object) {
     }
 }
 
-function renderVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
-    calculatedMatrix = JSON.parse(JSON.stringify(matrix))
-        //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.1
-        //compiledMeshes[meshCalc][12] = compiledMeshes[meshCalc][12] + 0.1
-    for (face = 0; face < calculatedMatrix.length; face++) {
-        polygonIsInvisible = true
-        calculatedMatrix[face].forEach(vert => {
-            if (0 - (vert.z + z) < camZ) {
-                polygonIsInvisible = false
-            }
-        })
-        calculatedMatrix[face].forEach(vert => {
-            if (polygonIsInvisible == false) {
-                resize(vert, sizeX, sizeY, sizeZ)
-                rotate(vert, { x: rotateX / 4, y: rotateY / 4, z: rotateZ / 4 })
-                calculateDistance(vert, x, y, z, camX, camY, camZ)
-                zoom(vert, 12)
-                positionMesh(vert)
-            } else {
-                vert.x = -1
-                vert.y = -1
-            }
-        })
-    }
-    return calculatedMatrix
+function rotateCamMesh(mesh) {
+
 }
 
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
@@ -172,7 +149,7 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
         calculatedMatrix[face].forEach(vert => {
             if (polygonIsInvisible == false) {
                 resize(vert, sizeX, sizeY, sizeZ)
-                rotate(vert, { x: (rotateX + (camRotationY / 10)) / 4, y: (rotateY + (camRotationX / 10)) / 4, z: rotateZ / 4 })
+                rotate(vert, { x: (rotateX + (camRotationY / 20)) / 4, y: (rotateY + (camRotationX / 20)) / 4, z: rotateZ / 4 })
                 calculateDistance(vert, x, y, z, camX, camY, camZ)
                 zoom(vert, 12)
                 positionMesh(vert)
@@ -230,6 +207,7 @@ function drawMeshes() {
     if (windowOpen == "scene") {
         getObjectOrder(compiledMeshes)
         for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
+            rotateCamMesh(compiledMeshes[meshCalc])
             let calculatedVertices1 = compiledMeshes[meshCalc]
             let calculatedVertices = calculateVertices(calculatedVertices1[0],
                 calculatedVertices1[1],
