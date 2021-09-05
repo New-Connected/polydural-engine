@@ -4,7 +4,7 @@ function handleFileSelect(evt) {
     var reader = new FileReader()
     reader.onload = (function(theFile) {
         return function(e) {
-            compile(e.target.result)
+            compile(e.target.result, files[0]["name"].replace(".obj", ""))
         }
     })(f)
     reader.readAsText(f)
@@ -12,7 +12,8 @@ function handleFileSelect(evt) {
 
 document.getElementById('upload').addEventListener('change', handleFileSelect, false);
 
-function compile(data) {
+function compile(data, nameObj) {
+    console.log(nameObj)
     object = []
     objectFaces = []
     objectOut = []
@@ -45,9 +46,8 @@ function compile(data) {
             objectOut[x].push(object[objectFaces[x][y] - 1])
         }
     }
-    console.log(JSON.stringify(objectOut))
     let nameNum = amountOfObjects + 1
-    let name = "object(" + nameNum + ")"
+    let name = nameObj + "(" + nameNum + ")"
     let buttonName = "object" + nameNum
     createMesh(JSON.parse(JSON.stringify(objectOut)), 0, 0, 0, name, buttonName, "obj", 1, 1, 1, 0, 0, 0, "#000000", objectOut, false)
     amountOfObjects = amountOfObjects + 1
@@ -55,7 +55,7 @@ function compile(data) {
     objectHolder = document.getElementById("objectHolder")
     button = document.createElement("button");
     objectHolder.appendChild(button);
-    button.innerHTML = "object (" + amountOfObjects + ")"
+    button.innerHTML = nameObj + " (" + amountOfObjects + ")"
     button.id = "object" + nameNum
     button.className = "object"
     button.onclick = function() {

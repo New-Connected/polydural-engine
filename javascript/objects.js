@@ -188,6 +188,10 @@ function deleteObject() {
 }
 
 function reloadObjects() {
+    loadedButtons = document.getElementsByClassName("object");
+    for (i = 1; i < loadedButtons.length; i++) {
+        loadedButtons[i].remove()
+    }
     document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
     for (x = 1; x < amountOfObjects; x++) {
         buttonNum = x + 1

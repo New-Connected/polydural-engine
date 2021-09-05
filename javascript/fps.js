@@ -20,6 +20,9 @@ function countFps(framesPassed, lastFrame) {
 
 function updateFps() {
     fpsData = countFps(fps, timePassed)
+    if (fpsData[0] >= maxFps) {
+        fpsData[0] = maxFps - 1
+    }
     fps = fpsData[0]
     timePassed = fpsData[1]
 }

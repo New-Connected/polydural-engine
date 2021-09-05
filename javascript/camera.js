@@ -2,6 +2,9 @@ camX = 0
 camY = 155
 camZ = 668
 
+camRotationX = 0
+camRotationY = 0
+
 compiledCamX = 0
 compiledCamY = -155
 compiledCamZ = -668
@@ -16,6 +19,10 @@ sClicked = 0
 dClicked = 0
 qClicked = 0
 eClicked = 0
+
+canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock;
+
+document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
 
 function checkMove() {
     camZ = camZ - wClicked
@@ -70,3 +77,34 @@ document.addEventListener('keyup', function(event) {
         qClicked = 0
     }
 })
+
+canvas.onclick = function() {
+  canvas.requestPointerLock();
+};
+
+document.addEventListener('pointerlockchange', lockChangeAlert, false);
+document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
+
+function lockChangeAlert() {
+    if (document.pointerLockElement === canvas || document.mozPointerLockElement === canvas) {
+        document.addEventListener("mousemove", updatePosition, false);
+    } else {
+        document.removeEventListener("mousemove", updatePosition, false);
+    }
+}
+
+function updatePosition(e) {
+    camRotationX = camRotationX + e.movementX
+    camRotationY = camRotationY + e.movementY
+    /*if (camRotationX < 0) {
+        camRotationX = 360
+    } else if (camRotationX > 360) {
+        camRotationX = 0
+    }
+    if (camRotationY < 0) {
+        camRotationY = 360
+    } else if (camRotationY > 360) {
+        camRotationY = 0
+    }*/
+    console.log(camRotationX + " " + camRotationY)
+}

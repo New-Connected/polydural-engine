@@ -11,6 +11,15 @@ windowOpen = "scene"
 
 colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"]
 
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+}
+
 class Vec {
     constructor(x = 0, y = 0, z = 0) {
         this.x = x;
@@ -113,12 +122,10 @@ function getObjectOrder(objects) {
 
 function grav(object) {
     timePassedGrav = timePassedGrav * 1.08
-    if (windowOpen == "game") {
-        if (object[19] == true) {
+    if (object[19] == true) {
+        if (windowOpen == "game") {
             object[2] = object[17] + 1 * timePassedGrav
-        }
-    } else {
-        if (object[19] == true) {
+        } else {
             object[2] = object[17]
         }
     }
@@ -165,7 +172,7 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
         calculatedMatrix[face].forEach(vert => {
             if (polygonIsInvisible == false) {
                 resize(vert, sizeX, sizeY, sizeZ)
-                rotate(vert, { x: rotateX / 4, y: rotateY / 4, z: rotateZ / 4 })
+                rotate(vert, { x: (rotateX + (camRotationY / 10)) / 4, y: (rotateY + (camRotationX / 10)) / 4, z: rotateZ / 4 })
                 calculateDistance(vert, x, y, z, camX, camY, camZ)
                 zoom(vert, 12)
                 positionMesh(vert)
@@ -183,7 +190,6 @@ function compileVertices() {
     for (meshCalc = 1; meshCalc < compiledMeshes.length; meshCalc++) {
         for (meshCalc = 1; meshCalc < compiledMeshes.length; meshCalc++) {
             compiledFaces.push([])
-            grav(compiledMeshes[meshCalc])
             let calculatedVertices1 = compiledMeshes[meshCalc]
             let calculatedVertices = calculateVertices(calculatedVertices1[0],
                 calculatedVertices1[1],
@@ -196,6 +202,7 @@ function compileVertices() {
                 calculatedVertices1[11],
                 calculatedVertices1[12],
                 calculatedVertices1[13])
+            grav(compiledMeshes[meshCalc])
             calculatedVertices = getDrawingOrder(calculatedVertices, compiledMeshes[meshCalc])
             for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
                 pushFace = true
@@ -309,9 +316,17 @@ function drawMeshes() {
         ctx.strokeStyle = '#000000'
         ctx.lineWidth = 5;
         for (mesh = 0; mesh < compiledFaces.length; mesh++) {
-            ctx.beginPath()
-            ctx.fillStyle = compiledMeshes[mesh][14]
+            ctx.fillStyle = compiledMeshes[mesh + 1][14]
             for (face = 0; face < compiledFaces[mesh].length; face++) {
+                if (compiledFaces[mesh][face][0].y > 0) {
+                    ctx.fillStyle = "rgb(" + 
+                    ((hexToRgb(compiledMeshes[mesh + 1][14]).r / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
+                    ", " + ((hexToRgb(compiledMeshes[mesh + 1][14]).g / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
+                    ", "  + ((hexToRgb(compiledMeshes[mesh + 1][14]).b / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + ")"
+                } else {
+                    ctx.fillStyle = compiledMeshes[mesh + 1][14]
+                }
+                ctx.beginPath()
                 for (vert = 0; vert < compiledFaces[mesh][face].length; vert++) {
                     if (vert == 0) {
                         ctx.moveTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
@@ -321,28 +336,9 @@ function drawMeshes() {
                         }
                     }
                 }
+                ctx.closePath()
+                ctx.fill()
             }
-            ctx.closePath()
-            ctx.fill()
-            /*
-            ctx.beginPath()
-            if (compiledFaces[mesh][0].y > 0) {
-                ctx.fillStyle = "rgba(255, 255, 255," + 100 / compiledFaces[mesh][0].y + ")"
-            } else {
-                ctx.fillStyle = "rgba(255, 255, 255," + 100 + ")"
-            }
-            for (face = 0; face < compiledFaces[mesh].length; face++) {
-                if (face == 0) {
-                    ctx.moveTo(compiledFaces[mesh][0].x, compiledFaces[mesh][0].y)
-                } else {
-                    if (compiledFaces[mesh][face].x != -1 && compiledFaces[mesh][face].y != -1) {
-                        ctx.lineTo(compiledFaces[mesh][face].x, compiledFaces[mesh][face].y)
-                    }
-                }
-            }
-            ctx.closePath()
-            ctx.fill()
-            */
         }
     } else if (windowOpen == "code") {
         ctx.fillStyle = "#000000"
