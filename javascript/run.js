@@ -1,7 +1,7 @@
 canvas = document.getElementById("gameWindow")
 ctx = canvas.getContext("2d")
 
-maxFps = 60
+maxFps = 120
 
 function clearWindow() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -17,6 +17,7 @@ function gameUpdate() {
     drawUI()
 }
 
+startEngineUi()
 createMesh(cameraMatrix, compiledCamX, compiledCamY, compiledCamZ, "camera", "camera", "camera", 1, 0.5, 1, 0, 0, 0)
 addObject("cube")
 

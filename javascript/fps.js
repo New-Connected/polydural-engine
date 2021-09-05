@@ -7,6 +7,9 @@ function countFps(framesPassed, lastFrame) {
     timeNow = date.getTime()
     if (timeNow >= lastFrame + 1000) {
         lastFrame = timeNow
+        if (framesPassed > maxFps) {
+            framesPassed = maxFps
+        }
         document.getElementById("fpsLabel").innerHTML = "fps: " + framesPassed
         framesPassed = 0
     } else {

@@ -3,6 +3,7 @@ ctx = canvas.getContext("2d")
 
 cameraData = [0, 0, 1]
 compiledMeshes = []
+compiledFaces = []
 
 timePassedGrav = 1
 
@@ -123,6 +124,33 @@ function grav(object) {
     }
 }
 
+function renderVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
+    calculatedMatrix = JSON.parse(JSON.stringify(matrix))
+        //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.1
+        //compiledMeshes[meshCalc][12] = compiledMeshes[meshCalc][12] + 0.1
+    for (face = 0; face < calculatedMatrix.length; face++) {
+        polygonIsInvisible = true
+        calculatedMatrix[face].forEach(vert => {
+            if (0 - (vert.z + z) < camZ) {
+                polygonIsInvisible = false
+            }
+        })
+        calculatedMatrix[face].forEach(vert => {
+            if (polygonIsInvisible == false) {
+                resize(vert, sizeX, sizeY, sizeZ)
+                rotate(vert, { x: rotateX / 4, y: rotateY / 4, z: rotateZ / 4 })
+                calculateDistance(vert, x, y, z, camX, camY, camZ)
+                zoom(vert, 12)
+                positionMesh(vert)
+            } else {
+                vert.x = -1
+                vert.y = -1
+            }
+        })
+    }
+    return calculatedMatrix
+}
+
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
         //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.1
@@ -148,6 +176,41 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
         })
     }
     return calculatedMatrix
+}
+
+function compileVertices() {
+    compiledFaces = []
+    for (meshCalc = 1; meshCalc < compiledMeshes.length; meshCalc++) {
+        for (meshCalc = 1; meshCalc < compiledMeshes.length; meshCalc++) {
+            compiledFaces.push([])
+            grav(compiledMeshes[meshCalc])
+            let calculatedVertices1 = compiledMeshes[meshCalc]
+            let calculatedVertices = calculateVertices(calculatedVertices1[0],
+                calculatedVertices1[1],
+                calculatedVertices1[2],
+                calculatedVertices1[3],
+                camX, camY, camZ,
+                calculatedVertices1[8],
+                calculatedVertices1[9],
+                calculatedVertices1[10],
+                calculatedVertices1[11],
+                calculatedVertices1[12],
+                calculatedVertices1[13])
+            calculatedVertices = getDrawingOrder(calculatedVertices, compiledMeshes[meshCalc])
+            for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+                pushFace = true
+                for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                    if (calculatedVertices[mesh][face].x == -1 && calculatedVertices[mesh][face].y == -1) {
+                        pushFace = false
+                    }
+                }
+                if (pushFace == true) {
+                    compiledFaces[meshCalc - 1].push(calculatedVertices[mesh])
+                }
+            }
+        }
+    }
+    return compiledFaces
 }
 
 function createMesh(matrix, x, y, z, name, buttonName, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, falling) {
@@ -242,56 +305,44 @@ function drawMeshes() {
             }
         }
     } else if (windowOpen == "game") {
-        for (meshCalc = 1; meshCalc < compiledMeshes.length; meshCalc++) {
-            let calculatedVertices1 = compiledMeshes[meshCalc]
-            let calculatedVertices = calculateVertices(calculatedVertices1[0],
-                calculatedVertices1[1],
-                calculatedVertices1[2],
-                calculatedVertices1[3],
-                camX, camY, camZ,
-                calculatedVertices1[8],
-                calculatedVertices1[9],
-                calculatedVertices1[10],
-                calculatedVertices1[11],
-                calculatedVertices1[12],
-                calculatedVertices1[13])
-            grav(compiledMeshes[meshCalc])
-            ctx.strokeStyle = '#000000'
-            ctx.lineWidth = 5;
-            calculatedVertices = getDrawingOrder(calculatedVertices, compiledMeshes[meshCalc])
-            for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
-                ctx.beginPath()
-                ctx.fillStyle = calculatedVertices1[14]
-                for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                    if (face == 0) {
-                        ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
+        compiledFaces = compileVertices()
+        ctx.strokeStyle = '#000000'
+        ctx.lineWidth = 5;
+        for (mesh = 0; mesh < compiledFaces.length; mesh++) {
+            ctx.beginPath()
+            ctx.fillStyle = compiledMeshes[mesh][14]
+            for (face = 0; face < compiledFaces[mesh].length; face++) {
+                for (vert = 0; vert < compiledFaces[mesh][face].length; vert++) {
+                    if (vert == 0) {
+                        ctx.moveTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
                     } else {
-                        if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
-                            ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                        if (compiledFaces[mesh][face][vert].x != -1 && compiledFaces[mesh][face][vert].y != -1) {
+                            ctx.lineTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
                         }
                     }
                 }
-                ctx.closePath()
-                ctx.fill()
-
-                ctx.beginPath()
-                if (calculatedVertices[mesh][0].y > 0) {
-                    ctx.fillStyle = "rgba(255, 255, 255," + 100 / calculatedVertices[mesh][0].y + ")"
-                } else {
-                    ctx.fillStyle = "rgba(255, 255, 255," + 100 + ")"
-                }
-                for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                    if (face == 0) {
-                        ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
-                    } else {
-                        if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
-                            ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                        }
-                    }
-                }
-                ctx.closePath()
-                ctx.fill()
             }
+            ctx.closePath()
+            ctx.fill()
+            /*
+            ctx.beginPath()
+            if (compiledFaces[mesh][0].y > 0) {
+                ctx.fillStyle = "rgba(255, 255, 255," + 100 / compiledFaces[mesh][0].y + ")"
+            } else {
+                ctx.fillStyle = "rgba(255, 255, 255," + 100 + ")"
+            }
+            for (face = 0; face < compiledFaces[mesh].length; face++) {
+                if (face == 0) {
+                    ctx.moveTo(compiledFaces[mesh][0].x, compiledFaces[mesh][0].y)
+                } else {
+                    if (compiledFaces[mesh][face].x != -1 && compiledFaces[mesh][face].y != -1) {
+                        ctx.lineTo(compiledFaces[mesh][face].x, compiledFaces[mesh][face].y)
+                    }
+                }
+            }
+            ctx.closePath()
+            ctx.fill()
+            */
         }
     } else if (windowOpen == "code") {
         ctx.fillStyle = "#000000"

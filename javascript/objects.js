@@ -6,7 +6,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "cube(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", cubeMatrix, true)
+        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", cubeMatrix, false)
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -43,6 +43,7 @@ function addObject(objectType) {
 
 function updateColor() {
     compiledMeshes[objectSelected[0]][14] = document.getElementById("objColor").value
+    document.getElementById("objectColor").innerHTML = "color: " + document.getElementById("objColor").value
 }
 
 function readObjectData(object, buttonName1) {
@@ -62,6 +63,20 @@ function readObjectData(object, buttonName1) {
             document.getElementById("rotationY").value = compiledMeshes[x][12] * 14.2857143
             document.getElementById("rotationZ").value = compiledMeshes[x][13] * 14.2857143
             document.getElementById("deleteObj").style.display = "block"
+            document.getElementById("rotationX").style.display = "block"
+            document.getElementById("rotationY").style.display = "block"
+            document.getElementById("rotationZ").style.display = "block"
+            document.getElementById("rotationLabel").style.display = "block"
+            document.getElementById("objFalling").style.display = "inline"
+            document.getElementById("gravityLabel").style.display = "inline"
+            document.getElementById("sizeLabel").style.display = "block"
+            document.getElementById("positionLabel").style.display = "block"
+            document.getElementById("objectX").style.display = "block"
+            document.getElementById("objectY").style.display = "block"
+            document.getElementById("objectZ").style.display = "block"
+            document.getElementById("sizeX").style.display = "block"
+            document.getElementById("sizeY").style.display = "block"
+            document.getElementById("sizeZ").style.display = "block"
             document.getElementById("objColor").value = compiledMeshes[x][14]
             if (compiledMeshes[x][19] == true && compiledMeshes[0][19] != undefined) {
                 document.getElementById("objFalling").checked = true
@@ -86,6 +101,20 @@ function readCameraData(object, buttonName1) {
     document.getElementById("rotationY").value = compiledMeshes[0][12] * 14.2857143
     document.getElementById("rotationZ").value = compiledMeshes[0][13] * 14.2857143
     document.getElementById("deleteObj").style.display = "none"
+    document.getElementById("rotationX").style.display = "none"
+    document.getElementById("rotationY").style.display = "none"
+    document.getElementById("rotationZ").style.display = "none"
+    document.getElementById("rotationLabel").style.display = "none"
+    document.getElementById("objFalling").style.display = "none"
+    document.getElementById("gravityLabel").style.display = "none"
+    document.getElementById("sizeLabel").style.display = "block"
+    document.getElementById("positionLabel").style.display = "block"
+    document.getElementById("objectX").style.display = "block"
+    document.getElementById("objectY").style.display = "block"
+    document.getElementById("objectZ").style.display = "block"
+    document.getElementById("sizeX").style.display = "block"
+    document.getElementById("sizeY").style.display = "block"
+    document.getElementById("sizeZ").style.display = "block"
     if (compiledMeshes[0][19] == true && compiledMeshes[x][19] != undefined) {
         document.getElementById("objFalling").checked = true
     } else {
@@ -115,6 +144,10 @@ function updatePos() {
         compiledMeshes[0][17] = Number(document.getElementById("objectY").value)
         compiledMeshes[0][18] = 0 - Number(document.getElementById("objectZ").value)
     }
+}
+
+function updateGravity() {
+    compiledMeshes[objectSelected[0]][19] = document.getElementById("objFalling").checked
 }
 
 function updateSize() {
@@ -196,4 +229,22 @@ function reloadObjects() {
             }
         }
     }
+}
+
+function startEngineUi() {
+    document.getElementById("deleteObj").style.display = "none"
+    document.getElementById("rotationX").style.display = "none"
+    document.getElementById("rotationY").style.display = "none"
+    document.getElementById("rotationZ").style.display = "none"
+    document.getElementById("rotationLabel").style.display = "none"
+    document.getElementById("objFalling").style.display = "none"
+    document.getElementById("gravityLabel").style.display = "none"
+    document.getElementById("sizeLabel").style.display = "none"
+    document.getElementById("positionLabel").style.display = "none"
+    document.getElementById("objectX").style.display = "none"
+    document.getElementById("objectY").style.display = "none"
+    document.getElementById("objectZ").style.display = "none"
+    document.getElementById("sizeX").style.display = "none"
+    document.getElementById("sizeY").style.display = "none"
+    document.getElementById("sizeZ").style.display = "none"
 }
