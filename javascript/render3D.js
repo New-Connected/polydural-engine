@@ -41,9 +41,9 @@ function ToPolygon(matrix) {
 }
 
 function calculateDistance(point, x, y, z, camX, camY, camZ) {
-    Fov = (point.z + z + camZ + 100) / 6
-    point.x = (point.x + x + camX) / Fov
-    point.y = (point.y + y + camY) / Fov
+    Fov = (point.z + (z + (200 * Math.cos(camRotationX / 50))) + camZ + 100) / 6
+    point.x = (point.x + (x + (200 * Math.sin(camRotationX / 50)) + camX)) / Fov
+    point.y = (point.y + (y + (200 * Math.cos(camRotationY / 50)) + camY)) / Fov
 }
 
 function zoom(point, factor) {
@@ -131,10 +131,6 @@ function grav(object) {
     }
 }
 
-function rotateCamMesh(mesh) {
-
-}
-
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
     calculatedMatrix = JSON.parse(JSON.stringify(matrix))
         //compiledMeshes[meshCalc][13] = compiledMeshes[meshCalc][13] + 0.1
@@ -207,7 +203,6 @@ function drawMeshes() {
     if (windowOpen == "scene") {
         getObjectOrder(compiledMeshes)
         for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
-            rotateCamMesh(compiledMeshes[meshCalc])
             let calculatedVertices1 = compiledMeshes[meshCalc]
             let calculatedVertices = calculateVertices(calculatedVertices1[0],
                 calculatedVertices1[1],
