@@ -78,6 +78,7 @@ document.addEventListener('keyup', function(event) {
     }
 })
 
+/*
 canvas.onclick = function() {
   canvas.requestPointerLock();
 };
@@ -96,5 +97,5 @@ function lockChangeAlert() {
 function updatePosition(e) {
     camRotationX = camRotationX + e.movementX
     camRotationY = camRotationY + e.movementY
-    console.log(camRotationX + " " + camRotationY)
 }
+*/

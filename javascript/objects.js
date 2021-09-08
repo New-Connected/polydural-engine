@@ -220,11 +220,11 @@ function reloadObjects() {
                 readObjectData(name, buttonName)
             }
         } else if (compiledMeshes[x][7] == "obj") {
-            let name = "object(" + buttonNum + ")"
-            let buttonName = "object" + buttonNum
+            let name = compiledMeshes[x][4]
+            let buttonName = compiledMeshes[x][5]
             button = document.createElement("button");
             objectHolder.appendChild(button);
-            button.innerHTML = "object (" + buttonNum + ")"
+            button.innerHTML = compiledMeshes[x][4]
             button.id = "object" + buttonNum
             button.className = "object"
             button.style.top = (6 * (x) + 4) + "%"
