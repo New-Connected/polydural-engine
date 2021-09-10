@@ -49,7 +49,7 @@ function compile(data, nameObj) {
     let nameNum = amountOfObjects + 1
     let name = nameObj + "(" + nameNum + ")"
     let buttonName = "object" + nameNum
-    createMesh(JSON.parse(JSON.stringify(objectOut)), 0, 0, 0, name, buttonName, "obj", 1, 1, 1, 0, 0, 0, "#000000", objectOut, false)
+    createMesh(JSON.parse(JSON.stringify(objectOut)), 0, 0, 0, name, buttonName, "obj", 1, 1, 1, 0, 0, 0, "#000000", objectOut, false, [])
     amountOfObjects = amountOfObjects + 1
     document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
     objectHolder = document.getElementById("objectHolder")

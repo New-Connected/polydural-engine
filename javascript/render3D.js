@@ -4,6 +4,7 @@ ctx = canvas.getContext("2d")
 cameraData = [0, 0, 1]
 compiledMeshes = []
 compiledFaces = []
+compiledLights = []
 
 timePassedGrav = 1
 
@@ -99,7 +100,7 @@ function getDrawingOrder(object, meshObj) {
     for (mesh = 0; mesh < object.length; mesh++) {
         faceZIndex = 0
         for (face = 0; face < object[mesh].length; face++) {
-            faceZIndex = faceZIndex + Math.sqrt(((((object[mesh][face]["z"] + meshObj[3]) - camZ) * 3) ** 2) + 
+            faceZIndex = faceZIndex + Math.sqrt(((((object[mesh][face]["z"] + meshObj[3]) - camZ) * 5) ** 2) + 
                                     ((camY - (object[mesh][face]["y"] + meshObj[2])) ** 2) + 
                                     ((camX - (object[mesh][face]["x"] + meshObj[1])) ** 2))
         }
@@ -113,12 +114,16 @@ function getDrawingOrder(object, meshObj) {
 }
 
 function getObjectOrder(objects) {
+    cameraInvisible = 1
+    if (windowOpen == "scene") {
+        cameraInvisible = 0
+    }
     objectsX = []
     objectsY = []
     objectsZ = []
-    for (meshX = 1; meshX < objects.length; meshX++) {
+    for (meshX = cameraInvisible; meshX < objects.length; meshX++) {
         position = 0
-        position = position + Math.sqrt(((((0 - camX) - objects[meshX][1]) * 3) ** 2) + 
+        position = position + Math.sqrt(((((0 - camX) - objects[meshX][1]) * 5) ** 2) + 
                                     ((camY - objects[meshX][2]) ** 2) + 
                                     ((camZ - objects[meshX][3]) ** 2))
         objectsX.push([position, objects[meshX]])
@@ -128,6 +133,22 @@ function getObjectOrder(objects) {
         objectsZ.push(objectsY[meshY][1])
     }
     return objectsZ
+}
+
+function getFaceLights(faceLighting, object) {
+    faceLight = 0
+    if (compiledLights.length > 0) {
+        for (light = 0; light < 1; light++) {
+            let faceMagnitude = Math.sqrt(((faceLighting.x - (compiledLights[light][0] + (0 - object[1]) + canvas.width / 2)) ** 2) + 
+                                        ((faceLighting.y - (compiledLights[light][1] + (0 - object[2]) + canvas.width / 2)) ** 2) + 
+                                        ((faceLighting.z - (compiledLights[light][2] + (0 - object[3]) + canvas.width / 2)) ** 2))
+            faceLight = faceLight + ((compiledLights[light][3] * 300) / faceMagnitude * compiledLights[light][4])
+            if (faceLight > 100) {
+                faceLight = 100
+            }
+        }
+    }
+    return faceLight
 }
 
 function grav(object) {
@@ -189,6 +210,15 @@ function compileVertices(MagObjects) {
             calculatedVertices1[12],
             calculatedVertices1[13])
         grav(MagObjects[meshCalc])
+        if (calculatedVertices1[20] != null) {
+            for (config = 0; config < calculatedVertices1[20].length; config++) {
+                if (calculatedVertices1[20][config][0] == "light") {
+                    compiledLights[0][0] = calculatedVertices1[1]
+                    compiledLights[0][1] = calculatedVertices1[2]
+                    compiledLights[0][2] = calculatedVertices1[3]
+                }
+            }
+        }
         calculatedVertices = getDrawingOrder(calculatedVertices, MagObjects[meshCalc])
         for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
             pushFace = true
@@ -205,10 +235,16 @@ function compileVertices(MagObjects) {
     return compiledFaces
 }
 
-function createMesh(matrix, x, y, z, name, buttonName, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, falling) {
+function createMesh(matrix, x, y, z, name, buttonName, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, falling, configurations) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, x, y, z, falling])
-    console.log(compiledMeshes)
+    compiledMeshes.push([vertices, x, y, z, name, buttonName, matrix, matrixName, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, matrix2, x, y, z, falling, configurations])
+    if (configurations != null) {
+        for (config = 0; config < configurations.length; config++) {
+            if (configurations[config][0] == "light") {
+                compiledLights.push([x, y, z, configurations[config][1][0], configurations[config][1][1]])
+            }
+        }
+    }
 }
 
 function drawMeshes() {
@@ -218,13 +254,28 @@ function drawMeshes() {
         ctx.strokeStyle = '#000000'
         ctx.lineWidth = 5;
         for (mesh = 0; mesh < compiledFaces.length; mesh++) {
+            transparency = 1
             ctx.fillStyle = magnitudeObjects[mesh][14]
+            if (magnitudeObjects[mesh][20] != null) {
+                for (config = 0; config < magnitudeObjects[mesh][20].length; config++) {
+                    if (magnitudeObjects[mesh][20][config][0] == "transparency") {
+                        if (magnitudeObjects[mesh][20][config][1] > 1) {
+                            magnitudeObjects[mesh][20][config][1] = 1
+                        } else if (magnitudeObjects[mesh][20][config][1] < 0) {
+                            magnitudeObjects[mesh][20][config][1] = 0
+                        }
+                        transparency = magnitudeObjects[mesh][20][config][1]
+                    }
+                }
+            }
             for (face = 0; face < compiledFaces[mesh].length; face++) {
+                faceLight = getFaceLights(compiledFaces[mesh][face][0], magnitudeObjects[mesh])
                 if (compiledFaces[mesh][face][0].y > 0) {
-                    ctx.fillStyle = "rgb(" + 
-                    ((hexToRgb(magnitudeObjects[mesh][14]).r / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
-                    ", " + ((hexToRgb(magnitudeObjects[mesh][14]).g / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
-                    ", "  + ((hexToRgb(magnitudeObjects[mesh][14]).b / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + ")"
+                    ctx.fillStyle = "rgba(" + 
+                    ((hexToRgb(magnitudeObjects[mesh][14]).r / 100) * faceLight) + 
+                    ", " + ((hexToRgb(magnitudeObjects[mesh][14]).g / 100) * faceLight) + 
+                    ", "  + ((hexToRgb(magnitudeObjects[mesh][14]).b / 100) * faceLight) +
+                    ", "  + transparency + ")"
                 } else {
                     ctx.fillStyle = magnitudeObjects[mesh][14]
                 }
@@ -278,28 +329,50 @@ function drawMeshes() {
         ctx.strokeStyle = '#000000'
         ctx.lineWidth = 5;
         for (mesh = 0; mesh < compiledFaces.length; mesh++) {
+            visible = true
+            transparency = 1
             ctx.fillStyle = magnitudeObjects[mesh][14]
-            for (face = 0; face < compiledFaces[mesh].length; face++) {
-                if (compiledFaces[mesh][face][0].y > 0) {
-                    ctx.fillStyle = "rgb(" + 
-                    ((hexToRgb(magnitudeObjects[mesh][14]).r / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
-                    ", " + ((hexToRgb(magnitudeObjects[mesh][14]).g / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
-                    ", "  + ((hexToRgb(magnitudeObjects[mesh][14]).b / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + ")"
-                } else {
-                    ctx.fillStyle = magnitudeObjects[mesh][14]
-                }
-                ctx.beginPath()
-                for (vert = 0; vert < compiledFaces[mesh][face].length; vert++) {
-                    if (vert == 0) {
-                        ctx.moveTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
-                    } else {
-                        if (compiledFaces[mesh][face][vert].x != -1 && compiledFaces[mesh][face][vert].y != -1) {
-                            ctx.lineTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
+            if (magnitudeObjects[mesh][20] != null) {
+                for (config = 0; config < magnitudeObjects[mesh][20].length; config++) {
+                    if (magnitudeObjects[mesh][20][config][0] == "visible") {
+                        if (magnitudeObjects[mesh][20][config][1] == false) {
+                            visible = false
                         }
+                    } else if (magnitudeObjects[mesh][20][config][0] == "transparency") {
+                        if (magnitudeObjects[mesh][20][config][1] > 1) {
+                            magnitudeObjects[mesh][20][config][1] = 1
+                        } else if (magnitudeObjects[mesh][20][config][1] < 0) {
+                            magnitudeObjects[mesh][20][config][1] = 0
+                        }
+                        transparency = magnitudeObjects[mesh][20][config][1]
                     }
                 }
-                ctx.closePath()
-                ctx.fill()
+            }
+            if (visible == true) {
+                for (face = 0; face < compiledFaces[mesh].length; face++) {
+                    faceLight = getFaceLights(compiledFaces[mesh][face][0], magnitudeObjects[mesh])
+                    if (compiledFaces[mesh][face][0].y > 0) {
+                        ctx.fillStyle = "rgba(" + 
+                        ((hexToRgb(magnitudeObjects[mesh][14]).r / 100) * faceLight) + 
+                        ", " + ((hexToRgb(magnitudeObjects[mesh][14]).g / 100) * faceLight) + 
+                        ", "  + ((hexToRgb(magnitudeObjects[mesh][14]).b / 100) * faceLight) +
+                        ", "  + transparency + ")"
+                    } else {
+                        ctx.fillStyle = magnitudeObjects[mesh][14]
+                    }
+                    ctx.beginPath()
+                    for (vert = 0; vert < compiledFaces[mesh][face].length; vert++) {
+                        if (vert == 0) {
+                            ctx.moveTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
+                        } else {
+                            if (compiledFaces[mesh][face][vert].x != -1 && compiledFaces[mesh][face][vert].y != -1) {
+                                ctx.lineTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
+                            }
+                        }
+                    }
+                    ctx.closePath()
+                    ctx.fill()
+                }
             }
         }
     } else if (windowOpen == "code") {
@@ -307,9 +380,5 @@ function drawMeshes() {
         ctx.beginPath()
         ctx.rect(0, 0, canvas.width, canvas.height)
         ctx.fill()
-        for (node = 0; node < nodeObjects[0][1].length; node++) {
-            loopOverNodes(nodeObjects[0][1][node][0], nodeObjects[0][1][node][2][0], nodeObjects[0][1][node][2][1], nodeObjects[0][1][node][1])
-        }
-        moveNode()
     }
 }

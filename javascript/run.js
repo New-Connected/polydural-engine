@@ -18,7 +18,7 @@ function gameUpdate() {
 }
 
 startEngineUi()
-createMesh(cameraMatrix, compiledCamX, compiledCamY, compiledCamZ, "camera", "camera", "camera", 1, 0.5, 1, 0, 0, 0)
+createMesh(cameraMatrix, compiledCamX, compiledCamY, compiledCamZ, "camera", "camera", "camera", 1, 0.5, 1, 0, 90 / 14.2857143, 180 / 14.2857143, "#ffffff", cameraMatrix, false, [["transparency", 0.1]])
 addObject("cube")
 
 setInterval(gameUpdate, 1000 / maxFps)

@@ -1,5 +1,6 @@
 function saveScene() {
     window.localStorage.setItem("objects", JSON.stringify(compiledMeshes))
+    window.localStorage.setItem("lights", JSON.stringify(compiledLights))
     window.localStorage.setItem("nodes", JSON.stringify(nodeObjects))
     window.localStorage.setItem("amountOfObjects", amountOfObjects)
     window.localStorage.setItem("cameraPosX", camX)
@@ -10,6 +11,7 @@ function saveScene() {
 
 function loadScene() {
     compiledMeshes = JSON.parse(window.localStorage.getItem("objects"))
+    compiledLights = JSON.parse(window.localStorage.getItem("lights"))
     nodeObjects = JSON.parse(window.localStorage.getItem("nodes"))
     amountOfObjects = Number(window.localStorage.getItem("amountOfObjects"))
     camX = Number(window.localStorage.getItem("cameraPosX"))

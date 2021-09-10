@@ -35,7 +35,7 @@ function xrayView() {
 function gameView() {
     windowOpen = "game"
     document.getElementById("gameWindow").style.width = "100%"
-    document.getElementById("gameWindow").style.height = "100%"
+    document.getElementById("gameWindow").style.height = "94.5%"
     document.getElementById("gameWindow").style.left = "0%"
     devCamX = camX
     devCamY = camY
@@ -50,6 +50,6 @@ function gameView() {
 function codeView() {
     windowOpen = "code"
     document.getElementById("gameWindow").style.width = "100%"
-    document.getElementById("gameWindow").style.height = "100%"
+    document.getElementById("gameWindow").style.height = "94.5%"
     document.getElementById("gameWindow").style.left = "0%"
 }

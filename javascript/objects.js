@@ -6,7 +6,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "cube(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", cubeMatrix, false)
+        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", cubeMatrix, false, [])
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -23,13 +23,30 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "triangle(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(triangleMatrix, 0, 0, 0, name, buttonName, "triangleMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", triangleMatrix, false)
+        createMesh(triangleMatrix, 0, 0, 0, name, buttonName, "triangleMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", triangleMatrix, false, [])
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
         button = document.createElement("button");
         objectHolder.appendChild(button);
         button.innerHTML = "triangle (" + amountOfObjects + ")"
+        button.id = "object" + nameNum
+        button.className = "object"
+        button.onclick = function() {
+            readObjectData(name, buttonName)
+        }
+    }
+    if (objectType == "light") {
+        let nameNum = amountOfObjects + 1
+        let name = "light(" + nameNum + ")"
+        let buttonName = "object" + nameNum
+        createMesh(lightMatrix, 0, 0, 0, name, buttonName, "lightMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", lightMatrix, false, [["light", [100, 1]], ["visible", false]])
+        amountOfObjects = amountOfObjects + 1
+        document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
+        objectHolder = document.getElementById("objectHolder")
+        button = document.createElement("button");
+        objectHolder.appendChild(button);
+        button.innerHTML = "light (" + amountOfObjects + ")"
         button.id = "object" + nameNum
         button.className = "object"
         button.onclick = function() {
@@ -213,6 +230,18 @@ function reloadObjects() {
             button = document.createElement("button");
             objectHolder.appendChild(button);
             button.innerHTML = "triangle (" + buttonNum + ")"
+            button.id = "object" + buttonNum
+            button.className = "object"
+            button.style.top = (6 * (x) + 4) + "%"
+            button.onclick = function() {
+                readObjectData(name, buttonName)
+            }
+        } else if (compiledMeshes[x][7] == "lightMatrix") {
+            let name = "light(" + buttonNum + ")"
+            let buttonName = "object" + buttonNum
+            button = document.createElement("button");
+            objectHolder.appendChild(button);
+            button.innerHTML = "light (" + buttonNum + ")"
             button.id = "object" + buttonNum
             button.className = "object"
             button.style.top = (6 * (x) + 4) + "%"

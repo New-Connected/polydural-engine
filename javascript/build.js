@@ -116,6 +116,21 @@ document.addEventListener('keyup', function(event) {
     }
 })
 
+cameraData = [0, 0, 1]
+compiledMeshes = []
+compiledFaces = []
+
+timePassedGrav = 1
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\\d]{2})([a-f\\d]{2})([a-f\\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+}
+
 function drawUI() {
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "20px Arial";     
@@ -139,7 +154,7 @@ function ToPolygon(matrix) {
 }
 
 function calculateDistance(point, x, y, z, camX, camY, camZ) {
-    Fov = (point.z + z + camZ + 100) / 3
+    Fov = (point.z + z + camZ + camZ + 100) / 6
     point.x = (point.x + x + camX) / Fov
     point.y = (point.y + y + camY) / Fov
 }
@@ -190,14 +205,16 @@ function rotate(point, rotation) {
     point.y = temp2;
 }
 
-function getDrawingOrder(object) {
+function getDrawingOrder(object, meshObj) {
     faceOrderX = []
     faceOrderZ = []
     faceOrderZ2 = []
     for (mesh = 0; mesh < object.length; mesh++) {
         faceZIndex = 0
         for (face = 0; face < object[mesh].length; face++) {
-            faceZIndex = faceZIndex + object[mesh][face]["z"]
+            faceZIndex = faceZIndex + Math.sqrt(((((object[mesh][face]["z"] + meshObj[3]) - camZ) * 3) ** 2) + 
+                                    ((camY - (object[mesh][face]["y"] + meshObj[2])) ** 2) + 
+                                    ((camX - (object[mesh][face]["x"] + meshObj[1])) ** 2))
         }
         faceOrderX.push([Math.abs(faceZIndex), object[mesh]])
     }
@@ -206,6 +223,35 @@ function getDrawingOrder(object) {
         faceOrderZ2.push(faceOrderZ[face][1])
     }
     return faceOrderZ2
+}
+
+function getObjectOrder(objects) {
+    objectsX = []
+    objectsY = []
+    objectsZ = []
+    for (meshX = 0; meshX < objects.length; meshX++) {
+        position = 0
+        position = position + Math.sqrt(((((0 - camX) - objects[meshX][1]) * 3) ** 2) + 
+                                    ((camY - objects[meshX][2]) ** 2) + 
+                                    ((camZ - objects[meshX][3]) ** 2))
+        objectsX.push([position, objects[meshX]])
+    }
+    objectsY = objectsX.sort()
+    for (meshY = 0; meshY < objectsY.length; meshY++) {
+        objectsZ.push(objectsY[meshY][1])
+    }
+    return objectsZ
+}
+
+function grav(object) {
+    timePassedGrav = timePassedGrav * 1.08
+    if (object[14] == true) {
+        if (windowOpen == "game") {
+            object[2] = object[12] + 1 * timePassedGrav
+        } else {
+            object[2] = object[12]
+        }
+    }
 }
 
 function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ) {
@@ -222,7 +268,7 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
                 resize(vert, sizeX, sizeY, sizeZ)
                 rotate(vert, { x: rotateX / 4, y: rotateY / 4, z: rotateZ / 4 })
                 calculateDistance(vert, x, y, z, camX, camY, camZ)
-                zoom(vert, 8)
+                zoom(vert, 12)
                 positionMesh(vert)
             } else {
                 vert.x = -1
@@ -233,57 +279,70 @@ function calculateVertices(matrix, x, y, z, camX, camY, camZ, sizeX, sizeY, size
     return calculatedMatrix
 }
 
-function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color) {
-    const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color])
-    console.log(compiledMeshes)
+function compileVertices(MagObjects) {
+    compiledFaces = []
+    for (meshCalc = 0; meshCalc < MagObjects.length; meshCalc++) {
+        compiledFaces.push([])
+        let calculatedVertices1 = MagObjects[meshCalc]
+        let calculatedVertices = calculateVertices(calculatedVertices1[0],
+            calculatedVertices1[1],
+            calculatedVertices1[2],
+            calculatedVertices1[3],
+            camX, camY, camZ,
+            calculatedVertices1[4],
+            calculatedVertices1[5],
+            calculatedVertices1[6],
+            calculatedVertices1[7],
+            calculatedVertices1[8],
+            calculatedVertices1[9])
+        grav(MagObjects[meshCalc])
+        calculatedVertices = getDrawingOrder(calculatedVertices, MagObjects[meshCalc])
+        for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
+            pushFace = true
+            for (face = 0; face < calculatedVertices[mesh].length; face++) {
+                if (calculatedVertices[mesh][face].x == -1 && calculatedVertices[mesh][face].y == -1) {
+                    pushFace = false
+                }
+            }
+            if (pushFace == true) {
+                compiledFaces[meshCalc].push(calculatedVertices[mesh])
+            }
+        }
+    }
+    return compiledFaces
 }
 
 function drawMeshes() {
-    for (meshCalc = 0; meshCalc < compiledMeshes.length; meshCalc++) {
-        let calculatedVertices1 = compiledMeshes[meshCalc]
-        let calculatedVertices = calculateVertices(calculatedVertices1[0], 
-                                                calculatedVertices1[1], 
-                                                calculatedVertices1[2], 
-                                                calculatedVertices1[3],
-                                                camX, camY, camZ,
-                                                calculatedVertices1[4],
-                                                calculatedVertices1[5],
-                                                calculatedVertices1[6],
-                                                calculatedVertices1[7],
-                                                calculatedVertices1[8],
-                                                calculatedVertices1[9])
-        ctx.strokeStyle = '#000000'
-        ctx.lineWidth = 5;
-        calculatedVertices = getDrawingOrder(calculatedVertices)
-        for (mesh = 0; mesh < calculatedVertices.length; mesh++) {
-            ctx.beginPath()
-            ctx.fillStyle = calculatedVertices1[10]
-            for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                if (face == 0) {
-                    ctx.moveTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                } else {
-                    if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
-                        ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
-                    }
-                }
-            }
-            ctx.closePath()
-            //ctx.stroke()
-            ctx.fill()
-
-            ctx.beginPath()
-            if (calculatedVertices[mesh][0].y > 0) {
-                ctx.fillStyle = "rgba(255, 255, 255," + 100 / calculatedVertices[mesh][0].y + ")"
+    magnitudeObjects = getObjectOrder(compiledMeshes)
+    compiledFaces = compileVertices(magnitudeObjects)
+    ctx.strokeStyle = '#000000'
+    ctx.lineWidth = 5;
+    for (mesh = 0; mesh < compiledFaces.length; mesh++) {
+        console.log(hexToRgb('#29c733'))
+        console.log(hexToRgb('#290733'))
+        console.log(hexToRgb('#2a0a3a'))
+        console.log(hexToRgb('#aaaaaa'))
+        console.log(magnitudeObjects[mesh])
+        console.log(magnitudeObjects[mesh][10])
+        console.log("#0000ff")
+        console.log(hexToRgb(magnitudeObjects[mesh][10]))
+        ctx.fillStyle = magnitudeObjects[mesh][10]
+        for (face = 0; face < compiledFaces[mesh].length; face++) {
+            if (compiledFaces[mesh][face][0].y > 0) {
+                ctx.fillStyle = "rgb(" + 
+                ((hexToRgb(magnitudeObjects[mesh][10]).r / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
+                ", " + ((hexToRgb(magnitudeObjects[mesh][10]).g / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
+                ", "  + ((hexToRgb(magnitudeObjects[mesh][10]).b / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + ")"
             } else {
-                ctx.fillStyle = "rgba(255, 255, 255," + 100 + ")"
+                ctx.fillStyle = magnitudeObjects[mesh][14]
             }
-            for (face = 0; face < calculatedVertices[mesh].length; face++) {
-                if (face == 0) {
-                    ctx.moveTo(calculatedVertices[mesh][0].x, calculatedVertices[mesh][0].y)
+            ctx.beginPath()
+            for (vert = 0; vert < compiledFaces[mesh][face].length; vert++) {
+                if (vert == 0) {
+                    ctx.moveTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
                 } else {
-                    if (calculatedVertices[mesh][face].x != -1 && calculatedVertices[mesh][face].y != -1) {
-                        ctx.lineTo(calculatedVertices[mesh][face].x, calculatedVertices[mesh][face].y)
+                    if (compiledFaces[mesh][face][vert].x != -1 && compiledFaces[mesh][face][vert].y != -1) {
+                        ctx.lineTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
                     }
                 }
             }
@@ -332,13 +391,32 @@ function drawSky(x, y, z) {
     ctx.fillStyle = colorsSky;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+
+function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, falling) {
+    const vertices = matrix.map(ToPolygon)
+    compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, x, y, z, falling])
+}
+
 `
 }
 
 function createObjects() {
     objectsString = ""
     for (x = 1; x < compiledMeshes.length; x++) {
-        objectsString = objectsString + "createMesh(" + JSON.stringify(compiledMeshes[x][15]) + ", " + compiledMeshes[x][1] + ", " + compiledMeshes[x][2] + ", " + compiledMeshes[x][3] + ", " + compiledMeshes[x][8] + ", " + compiledMeshes[x][9] + ", " + compiledMeshes[x][10] + ", " + compiledMeshes[x][11] + ", " + compiledMeshes[x][12] + ", " + compiledMeshes[x][13] + ', "' + compiledMeshes[x][14] + '")\n'
+        console.log(compiledMeshes[x][6])
+        console.log(JSON.stringify(compiledMeshes[x][6]))
+        objectsString = objectsString + "createMesh(" + JSON.stringify(compiledMeshes[x][6]) + ", " + 
+                                                                        compiledMeshes[x][1] + ", " + 
+                                                                        compiledMeshes[x][2] + ", " + 
+                                                                        compiledMeshes[x][3] + ", " + 
+                                                                        compiledMeshes[x][8] + ", " + 
+                                                                        compiledMeshes[x][9] + ", " + 
+                                                                        compiledMeshes[x][10] + ", " + 
+                                                                        compiledMeshes[x][11] + ", " + 
+                                                                        compiledMeshes[x][12] + ", " + 
+                                                                        compiledMeshes[x][13] + ", '" + 
+                                                                        compiledMeshes[x][14] + "', " + 
+                                                                        compiledMeshes[x][19] + ")\n"
     }
     return objectsString
 }
@@ -357,7 +435,9 @@ function gameUpdate() {
     drawUI();
 }
 
-setInterval(gameUpdate, 1);
+maxFps = 120
+
+setInterval(gameUpdate, 1000 / maxFps);
 `
 htmlPageOut3 = `
 </script>
