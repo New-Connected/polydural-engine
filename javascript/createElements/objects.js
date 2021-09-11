@@ -1,12 +1,12 @@
 amountOfObjects = 1
 objectSelected = [-1, "a"]
 
-function addObject(objectType) {
+function addObject(objectType, xPos, yPos, zPos) {
     if (objectType == "cube") {
         let nameNum = amountOfObjects + 1
         let name = "cube(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(cubeMatrix, 0, 0, 0, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", cubeMatrix, false, [])
+        createMesh(cubeMatrix, xPos, yPos, zPos, name, buttonName, "cubeMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", cubeMatrix, false, [])
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -23,7 +23,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "triangle(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(triangleMatrix, 0, 0, 0, name, buttonName, "triangleMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", triangleMatrix, false, [])
+        createMesh(triangleMatrix, xPos, yPos, zPos, name, buttonName, "triangleMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", triangleMatrix, false, [])
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")
@@ -40,7 +40,7 @@ function addObject(objectType) {
         let nameNum = amountOfObjects + 1
         let name = "light(" + nameNum + ")"
         let buttonName = "object" + nameNum
-        createMesh(lightMatrix, 0, 0, 0, name, buttonName, "lightMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", lightMatrix, false, [["light", [100, 1]], ["visible", false]])
+        createMesh(lightMatrix, xPos, yPos, zPos, name, buttonName, "lightMatrix", 1, 1, 1, 0, 0, 0, "#FFFFFF", lightMatrix, false, [["light", [100, 1]], ["visible", false], ["transparency", 0.3]])
         amountOfObjects = amountOfObjects + 1
         document.getElementById("amountOfObjects").innerHTML = "amount of objects: " + amountOfObjects
         objectHolder = document.getElementById("objectHolder")

@@ -25,10 +25,10 @@
     <div id="objectHolder">
         <button class="objectDropdown">add object</button>
         <div class="objectDropdownMenu">
-            <button id="addObject" onclick="addObject('cube')">add cube</button>
-            <button id="addObject2" onclick="addObject('triangle')">add triangle</button>
+            <button id="addObject" onclick="addObject('cube', 0, 0, 0)">add cube</button>
+            <button id="addObject2" onclick="addObject('triangle', 0, 0, 0)">add triangle</button>
             <input id="upload" type=file accept=".obj" name="files[]">
-            <button id="addObject3" onclick="addObject('light')">add light</button>
+            <button id="addObject3" onclick="addObject('light', 0, 0, 0)">add light</button>
         </div>
         <div id="amountOfObjects">amount of objects: 0</div>
         <button class="object" id="camera" onclick="readCameraData('camera(1)', 'camera1')">camera (1)</button>
@@ -65,19 +65,19 @@
         canvas.height = window.innerHeight;
         canvas.id = "gameWindow";
     </script>
-    <script src="javascript/objToVertices.js"></script>
-    <script src="javascript/drawSkyBox.js"></script>
-    <script src="javascript/save.js"></script>
-    <script src="javascript/nodes.js"></script>
-    <script src="javascript/window.js"></script>
-    <script src="javascript/renderUI.js"></script>
-    <script src="javascript/objects.js"></script>
-    <script src="javascript/defaultObjects.js"></script>
-    <script src="javascript/render3D.js"></script>
-    <script src="javascript/camera.js"></script>
+    <script src="javascript/createElements/objToVertices.js"></script>
+    <script src="javascript/renderer/drawSkyBox.js"></script>
+    <script src="javascript/store/save.js"></script>
+    <script src="javascript/createElements/nodes.js"></script>
+    <script src="javascript/ui/window.js"></script>
+    <script src="javascript/ui/renderUI.js"></script>
+    <script src="javascript/createElements/objects.js"></script>
+    <script src="javascript/renderer/defaultObjects.js"></script>
+    <script src="javascript/renderer/render3D.js"></script>
+    <script src="javascript/renderer/camera.js"></script>
     <script src="javascript/run.js"></script>
-    <script src="javascript/fps.js"></script>
-    <script src="javascript/build.js"></script>
+    <script src="javascript/ui/fps.js"></script>
+    <script src="javascript/store/build.js"></script>
 </body>
 
 </html>
