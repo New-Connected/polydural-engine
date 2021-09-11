@@ -134,6 +134,7 @@ function hexToRgb(hex) {
 function drawUI() {
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "20px Arial";     
+    //removing this might break the game and it would be nice if you leave it in, thank you.
     ctx.fillText("made with polydural", 0, 30);
 }
 
@@ -405,18 +406,18 @@ function createObjects() {
     for (x = 1; x < compiledMeshes.length; x++) {
         console.log(compiledMeshes[x][6])
         console.log(JSON.stringify(compiledMeshes[x][6]))
-        objectsString = objectsString + "createMesh(" + JSON.stringify(compiledMeshes[x][6]) + ", " + 
-                                                                        compiledMeshes[x][1] + ", " + 
-                                                                        compiledMeshes[x][2] + ", " + 
-                                                                        compiledMeshes[x][3] + ", " + 
-                                                                        compiledMeshes[x][8] + ", " + 
-                                                                        compiledMeshes[x][9] + ", " + 
-                                                                        compiledMeshes[x][10] + ", " + 
-                                                                        compiledMeshes[x][11] + ", " + 
-                                                                        compiledMeshes[x][12] + ", " + 
-                                                                        compiledMeshes[x][13] + ", '" + 
-                                                                        compiledMeshes[x][14] + "', " + 
-                                                                        compiledMeshes[x][19] + ")\n"
+        objectsString = objectsString + "createMesh(" + JSON.stringify(compiledMeshes[x][6]) + ", " +
+            compiledMeshes[x][1] + ", " +
+            compiledMeshes[x][2] + ", " +
+            compiledMeshes[x][3] + ", " +
+            compiledMeshes[x][8] + ", " +
+            compiledMeshes[x][9] + ", " +
+            compiledMeshes[x][10] + ", " +
+            compiledMeshes[x][11] + ", " +
+            compiledMeshes[x][12] + ", " +
+            compiledMeshes[x][13] + ", '" +
+            compiledMeshes[x][14] + "', " +
+            compiledMeshes[x][19] + ")\n"
     }
     return objectsString
 }

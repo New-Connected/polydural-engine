@@ -12,16 +12,6 @@
 </head>
 
 <body>
-    <div id="menuBar">
-        <div id="fpsLabel">fps: 0</div>
-        <button id="sceneView" onclick="sceneView()">scene editor</button>
-        <button id="xrayView" onclick="xrayView()">xray editor</button>
-        <button id="gameView" onclick="gameView()">game window</button>
-        <button id="codeView" onclick="codeView()">code editor</button>
-        <button id="build" onclick="startBuild()">build game</button>
-        <button id="save" onclick="saveScene()">save</button>
-        <button id="load" onclick="loadScene()">load</button>
-    </div>
     <div id="objectHolder">
         <button class="objectDropdown">add object</button>
         <div class="objectDropdownMenu">
@@ -56,7 +46,25 @@
         <div id="camPos">camera position: 0, 0, 1</div>
     </div>
 
+    <div id="loadedMeshes">
+        <canvas id="objectLoaded1"></canvas>
+    </div>
+
     <div id="buildOut"></div>
+
+    <div id="menuBar">
+        <div id="fpsLabel">fps: 0</div>
+        <button id="sceneView" onclick="sceneView()">scene editor</button>
+        <button id="xrayView" onclick="xrayView()">xray editor</button>
+        <button id="gameView" onclick="gameView()">game window</button>
+        <button id="codeView" onclick="codeView()">code editor</button>
+        <button class="saveDropdown">save</button>
+        <div class="saveDropdownMenu">
+            <button id="build" onclick="startBuild()">build game</button>
+            <button id="save" onclick="saveScene()">save</button>
+            <button id="load" onclick="loadScene()">load</button>
+        </div>
+    </div>
 
     <script>
         canvas = document.createElement("canvas");
@@ -65,6 +73,8 @@
         canvas.height = window.innerHeight;
         canvas.id = "gameWindow";
     </script>
+    <script src="javascript/ui/loadingScreen.js"></script>
+    <script src="javascript/physics/gravity.js"></script>
     <script src="javascript/createElements/objToVertices.js"></script>
     <script src="javascript/renderer/drawSkyBox.js"></script>
     <script src="javascript/store/save.js"></script>
