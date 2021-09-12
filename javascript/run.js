@@ -11,16 +11,11 @@ function clearWindow() {
 }
 
 function gameUpdate() {
-    if (loadingScreen < 20000 / maxFps) {
-        loadingScreen = loadingScreen + 1
-        loadEngine()
-    } else {
-        clearWindow()
-        drawMeshes()
-        checkMove()
-        drawUI()
-        updateFps()
-    }
+    clearWindow()
+    drawMeshes()
+    checkMove()
+    drawUI()
+    updateFps()
 }
 
 createMesh(cameraMatrix, compiledCamX, compiledCamY, compiledCamZ, "camera", "camera", "camera", 1, 0.5, 1, 0, 0, 0, "#ffffff", cameraMatrix, false, [
@@ -29,5 +24,7 @@ createMesh(cameraMatrix, compiledCamX, compiledCamY, compiledCamZ, "camera", "ca
 
 addObject("cube", 0, 0, 0)
 addObject("light", 0, -200, 0)
+
+loadEngine()
 
 setInterval(gameUpdate, 1000 / maxFps)
