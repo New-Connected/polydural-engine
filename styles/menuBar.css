@@ -49,6 +49,7 @@
     left: 90%;
     width: 10%;
     height: 100%;
+    z-index: 1;
 }
 
 .saveDropdownMenu {
@@ -59,6 +60,7 @@
     height: 400%;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     display: none;
+    z-index: 1;
 }
 
 .saveDropdown:hover+.saveDropdownMenu {

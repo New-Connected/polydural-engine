@@ -46,10 +46,6 @@
         <div id="camPos">camera position: 0, 0, 1</div>
     </div>
 
-    <div id="loadedMeshes">
-        <canvas id="objectLoaded1"></canvas>
-    </div>
-
     <div id="buildOut"></div>
 
     <div id="menuBar">
@@ -66,6 +62,8 @@
         </div>
     </div>
 
+    <textarea cols="40" rows="5" id="codeEditor"></textarea>
+
     <script>
         canvas = document.createElement("canvas");
         document.body.appendChild(canvas);
@@ -73,12 +71,12 @@
         canvas.height = window.innerHeight;
         canvas.id = "gameWindow";
     </script>
+    <script src="javascript/programming/readScript.js"></script>
     <script src="javascript/ui/loadingScreen.js"></script>
     <script src="javascript/physics/gravity.js"></script>
     <script src="javascript/createElements/objToVertices.js"></script>
     <script src="javascript/renderer/drawSkyBox.js"></script>
     <script src="javascript/store/save.js"></script>
-    <script src="javascript/createElements/nodes.js"></script>
     <script src="javascript/ui/window.js"></script>
     <script src="javascript/ui/renderUI.js"></script>
     <script src="javascript/createElements/objects.js"></script>

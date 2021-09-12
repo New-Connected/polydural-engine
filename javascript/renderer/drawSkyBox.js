@@ -11,11 +11,12 @@ cloudGradient = ["rgba(255, 255, 255, 0.1)", "rgba(255, 255, 255, 0.2)", "rgba(2
 ]
 
 function noise1D(x, time, amplitude, size) {
-    layer1 = (Math.sin((x + time) / size) * 20) 
-    layer2 = (Math.sin((x + time + 100) / size) * amplitude)
+    layer1 = (Math.sin((x + (0 - time)) / size) * 40) 
+    layer2 = ((Math.sin((x + time + 100) / size) * amplitude) * 3)
     layer3 = (Math.sin((x + time + 200) / size) * amplitude * 2)
-    layer4 = (Math.sin((x + time + 300) / (size / 2)) * amplitude / 2)
-    return (layer1 + layer2 + layer3 + layer4) / 4
+    layer4 = ((Math.sin((x + time + 300) / (size / 2)) * amplitude / 2) * 3)
+    layer5 = (Math.sin((x + (0 - time)) / size))
+    return (layer1 + layer2 + layer3 + layer4 + layer5) / 5
 }
 
 function noise2D(x, y, time) {

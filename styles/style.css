@@ -63,6 +63,20 @@ input:hover {
     background: #878787;
 }
 
+#codeEditor {
+    position: absolute;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 94.5%;
+    min-height: 94.5%;
+    height: 94.5%;
+    width: 100%;
+    top: 5.5%;
+    left: 0%;
+    display: none;
+    z-index: 0;
+}
+
 .objectDropdown {
     position: absolute;
     left: 70%;
@@ -136,5 +150,3 @@ input:hover {
     position: absolute;
     top: 3.9%;
 }
-
-#loadedMeshes {}
