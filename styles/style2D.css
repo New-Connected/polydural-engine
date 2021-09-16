@@ -122,17 +122,43 @@ input:hover {
     height: 25%;
 }
 
-#upload {
+#uploadLabel {
     position: absolute;
     width: 100%;
     top: 50%;
+    background: rgb(95, 95, 95);
+    border-radius: 4px;
+    border: 0px solid #333333;
+    font-size: 1vw;
     height: 25%;
+    text-align: center;
 }
-#upload2 {
+
+#uploadLabel:hover {
+    background: #878787;
+}
+
+#uploadLabel2 {
     position: absolute;
     width: 100%;
     top: 75%;
+    background: rgb(95, 95, 95);
+    border-radius: 4px;
+    border: 0px solid #333333;
+    font-size: 1vw;
     height: 25%;
+    text-align: center;
+}
+
+#uploadLabel2:hover {
+    background: #878787;
+}
+
+#upload {
+    display: none;
+}
+#upload2 {
+    display: none;
 }
 
 #amountOfObjects {

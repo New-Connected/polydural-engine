@@ -319,36 +319,49 @@ function drawMeshes() {
     ctx.strokeStyle = '#000000'
     ctx.lineWidth = 5;
     for (mesh = 0; mesh < compiledFaces.length; mesh++) {
-        console.log(hexToRgb('#29c733'))
-        console.log(hexToRgb('#290733'))
-        console.log(hexToRgb('#2a0a3a'))
-        console.log(hexToRgb('#aaaaaa'))
-        console.log(magnitudeObjects[mesh])
-        console.log(magnitudeObjects[mesh][10])
-        console.log("#0000ff")
-        console.log(hexToRgb(magnitudeObjects[mesh][10]))
+        visible = true
+        transparency = 1
         ctx.fillStyle = magnitudeObjects[mesh][10]
-        for (face = 0; face < compiledFaces[mesh].length; face++) {
-            if (compiledFaces[mesh][face][0].y > 0) {
-                ctx.fillStyle = "rgb(" + 
-                ((hexToRgb(magnitudeObjects[mesh][10]).r / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
-                ", " + ((hexToRgb(magnitudeObjects[mesh][10]).g / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
-                ", "  + ((hexToRgb(magnitudeObjects[mesh][10]).b / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + ")"
-            } else {
-                ctx.fillStyle = magnitudeObjects[mesh][14]
-            }
-            ctx.beginPath()
-            for (vert = 0; vert < compiledFaces[mesh][face].length; vert++) {
-                if (vert == 0) {
-                    ctx.moveTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
-                } else {
-                    if (compiledFaces[mesh][face][vert].x != -1 && compiledFaces[mesh][face][vert].y != -1) {
-                        ctx.lineTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
+        if (magnitudeObjects[mesh][11] != null) {
+            for (config = 0; config < magnitudeObjects[mesh][11].length; config++) {
+                if (magnitudeObjects[mesh][11][config][0] == "visible") {
+                    if (magnitudeObjects[mesh][11][config][1] == false) {
+                        visible = false
                     }
+                } else if (magnitudeObjects[mesh][11][config][0] == "transparency") {
+                    if (magnitudeObjects[mesh][11][config][1] > 1) {
+                        magnitudeObjects[mesh][11][config][1] = 1
+                    } else if (magnitudeObjects[mesh][11][config][1] < 0) {
+                        magnitudeObjects[mesh][11][config][1] = 0
+                    }
+                    transparency = magnitudeObjects[mesh][11][config][1]
                 }
             }
-            ctx.closePath()
-            ctx.fill()
+        }
+        if (visible == true) {
+            for (face = 0; face < compiledFaces[mesh].length; face++) {
+                if (compiledFaces[mesh][face][0].y > 0) {
+                    ctx.fillStyle = "rgba(" + 
+                    ((hexToRgb(magnitudeObjects[mesh][10]).r / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
+                    ", " + ((hexToRgb(magnitudeObjects[mesh][10]).g / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
+                    ", "  + ((hexToRgb(magnitudeObjects[mesh][10]).b / canvas.height) * (canvas.height - compiledFaces[mesh][face][0].y)) + 
+                    ", " + transparency + ")"
+                } else {
+                    ctx.fillStyle = magnitudeObjects[mesh][14]
+                }
+                ctx.beginPath()
+                for (vert = 0; vert < compiledFaces[mesh][face].length; vert++) {
+                    if (vert == 0) {
+                        ctx.moveTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
+                    } else {
+                        if (compiledFaces[mesh][face][vert].x != -1 && compiledFaces[mesh][face][vert].y != -1) {
+                            ctx.lineTo(compiledFaces[mesh][face][vert].x, compiledFaces[mesh][face][vert].y)
+                        }
+                    }
+                }
+                ctx.closePath()
+                ctx.fill()
+            }
         }
     }
 }
@@ -393,9 +406,9 @@ function drawSky(x, y, z) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, falling) {
+function createMesh(matrix, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, falling, configurations) {
     const vertices = matrix.map(ToPolygon)
-    compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, x, y, z, falling])
+    compiledMeshes.push([vertices, x, y, z, sizeX, sizeY, sizeZ, rotateX, rotateY, rotateZ, color, x, y, z, falling, configurations])
 }
 
 `
@@ -417,7 +430,8 @@ function createObjects() {
             compiledMeshes[x][12] + ", " +
             compiledMeshes[x][13] + ", '" +
             compiledMeshes[x][14] + "', " +
-            compiledMeshes[x][19] + ")\n"
+            compiledMeshes[x][19] + ", " +
+            compiledMeshes[x][20] + ")\n"
     }
     return objectsString
 }
